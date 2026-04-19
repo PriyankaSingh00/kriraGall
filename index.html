@@ -74,6 +74,7 @@
       color: var(--text2);
       text-decoration: none;
       transition: color 0.2s;
+      cursor: pointer;
     }
 
     .nav-links li a:hover { color: var(--text); }
@@ -100,16 +101,16 @@
     }
 
     .hero-image {
-      <link rel="icon" type="image/x-icon" href="/favicon.ico">
       background: #1a1510;
       position: relative;
       overflow: hidden;
     }
 
-    .hero-image svg {
+    .hero-image img {
       width: 100%;
       height: 100%;
       display: block;
+      object-fit: cover;
       min-height: 520px;
     }
 
@@ -236,6 +237,7 @@
       border-bottom: 0.5px solid var(--border);
       padding-bottom: 1px;
       transition: color 0.2s;
+      cursor: pointer;
     }
 
     .section-link:hover { color: var(--text); }
@@ -253,6 +255,14 @@
       cursor: pointer;
       overflow: hidden;
       position: relative;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .art-cell:hover {
+      transform: translateY(-2px);
     }
 
     .art-cell:nth-child(3n) { border-right: none; }
@@ -265,14 +275,15 @@
       position: relative;
     }
 
-    .art-image-wrap svg {
+    .art-image-wrap img {
       width: 100%;
       height: 100%;
       display: block;
+      object-fit: cover;
       transition: transform 0.5s ease;
     }
 
-    .art-cell:hover .art-image-wrap svg { transform: scale(1.03); }
+    .art-cell:hover .art-image-wrap img { transform: scale(1.03); }
 
     .art-overlay {
       position: absolute;
@@ -362,7 +373,12 @@
       overflow: hidden;
     }
 
-    .about-image svg { width: 100%; height: 100%; display: block; }
+    .about-image img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
 
     /* NEWSLETTER */
     .newsletter {
@@ -448,11 +464,62 @@
       color: var(--text2);
       text-decoration: none;
       transition: color 0.2s;
+      cursor: pointer;
     }
 
     .footer-links li a:hover { color: var(--text); }
 
     .footer-copy { font-size: 11px; color: var(--text3); }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--bg);
+      width: 90%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text);
+      z-index: 1001;
+    }
+
+    .modal-image {
+      width: 100%;
+      max-height: 500px;
+      object-fit: cover;
+    }
+
+    .modal-info {
+      padding: 2rem;
+    }
 
     /* MOBILE */
     @media (max-width: 768px) {
@@ -472,6 +539,7 @@
       footer { flex-direction: column; gap: 1.5rem; text-align: center; }
       .ticker { gap: 1.5rem; font-size: 10px; }
       .section-header { padding: 1.5rem; }
+      .modal-content { width: 95%; }
     }
   </style>
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -482,10 +550,10 @@
   <nav>
     <a href="/" class="nav-logo">Krir<span>a</span></a>
     <ul class="nav-links">
-      <li><a href="#collection">Collection</a></li>
-      <li><a href="#artists">Artists</a></li>
-      <li><a href="#exhibitions">Exhibitions</a></li>
-      <li><a href="#about">About</a></li>
+      <li><a href="#collection" onclick="scrollToSection(event, 'collection')">Collection</a></li>
+      <li><a href="#artists" onclick="scrollToSection(event, 'artists')">Artists</a></li>
+      <li><a href="#exhibitions" onclick="scrollToSection(event, 'exhibitions')">Exhibitions</a></li>
+      <li><a href="#about" onclick="scrollToSection(event, 'about')">About</a></li>
     </ul>
     <a href="mailto:hello@krira.art" class="nav-inquire">Inquire</a>
   </nav>
@@ -493,17 +561,7 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-image">
-      <svg viewBox="0 0 680 820" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-        <image href="yellow.jpg" x="0" y="0" width="680" height="820" preserveAspectRatio="xMidYMid slice"/>
-       
-        <rect x="80" y="140" width="520" height="540" rx="2" fill="none" stroke="#C4986A" stroke-width="0.5" opacity="0.4"/>
-       
-        <circle cx="340" cy="390" r="90" fill="none" stroke="#C4986A" stroke-width="0.5" opacity="0.5"/>
-        <line x1="340" y1="140" x2="340" y2="680" stroke="#C4986A" stroke-width="0.3" opacity="0.2"/>
-        <line x1="80" y1="410" x2="600" y2="410" stroke="#C4986A" stroke-width="0.3" opacity="0.2"/>
-       <text x="340" y="380" font-family="Georgia,serif" font-size="13" fill="#C4986A" opacity="0.7" text-anchor="middle" letter-spacing="6" font-style="italic">Solitude IV</text>
-        <text x="340" y="402" font-family="Arial,sans-serif" font-size="9" fill="#C4986A" opacity="0.4" text-anchor="middle" letter-spacing="3">oil on canvas · 2024</text>
-      </svg>
+      <img src="arts/image1.jpg" alt="Featured artwork - Solitude IV" />
       <div class="hero-badge">Featured work</div>
     </div>
     <div class="hero-content">
@@ -511,8 +569,8 @@
       <h1 class="hero-title">Where <em>art</em><br>finds its<br>audience</h1>
       <p class="hero-meta">Krira Gallery presents works by emerging and established artists — curated for collectors, enthusiasts, and those who believe art belongs everywhere.</p>
       <div class="hero-actions">
-        <a href="#collection" class="btn-primary">View collection</a>
-        <a href="#about" class="btn-ghost">About the gallery</a>
+        <a href="#collection" class="btn-primary" onclick="scrollToSection(event, 'collection')">View collection</a>
+        <a href="#about" class="btn-ghost" onclick="scrollToSection(event, 'about')">About the gallery</a>
       </div>
     </div>
   </section>
@@ -533,21 +591,13 @@
   <!-- GALLERY GRID -->
   <div class="section-header" id="collection">
     <span class="section-label">Current collection</span>
-    <a href="#" class="section-link">View all works →</a>
+    <a href="#collection" class="section-link" onclick="scrollToSection(event, 'collection')">View all works →</a>
   </div>
 
   <div class="gallery-grid">
-    <div class="art-cell">
+    <a href="#" class="art-cell" onclick="openModal(event, 1, 'Orbital Memory', 'Kavya Nair', 'Inquire for price')">
       <div class="art-image-wrap">
-        <svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#16213E"/><stop offset="100%" stop-color="#0F3460"/></linearGradient></defs>
-          <rect width="300" height="375" fill="url(#g1)"/>
-          <circle cx="150" cy="140" r="80" fill="#E94560" opacity="0.8"/>
-          <circle cx="150" cy="140" r="55" fill="#0F3460" opacity="0.6"/>
-          <circle cx="150" cy="140" r="30" fill="#E94560" opacity="0.9"/>
-          <line x1="70" y1="140" x2="230" y2="140" stroke="#fff" stroke-width="0.5" opacity="0.3"/>
-          <line x1="150" y1="60" x2="150" y2="220" stroke="#fff" stroke-width="0.5" opacity="0.3"/>
-        </svg>
+        <img src="arts/image1.jpg" alt="Orbital Memory by Kavya Nair" />
         <div class="art-overlay"></div>
       </div>
       <div class="art-info">
@@ -555,18 +605,11 @@
         <div class="art-artist">Kavya Nair</div>
         <div class="art-price">Inquire for price</div>
       </div>
-    </div>
+    </a>
 
-    <div class="art-cell">
+    <a href="#" class="art-cell" onclick="openModal(event, 2, 'Earth &amp; Shadow', 'Rahul Desai', '₹ 85,000')">
       <div class="art-image-wrap">
-        <svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <rect width="300" height="375" fill="#F5ECD7"/>
-          <rect x="30" y="30" width="240" height="315" fill="#EAD9C0"/>
-          <line x1="0" y1="188" x2="300" y2="188" stroke="#C4A882" stroke-width="60" opacity="0.4"/>
-          <rect x="60" y="100" width="80" height="175" fill="#8B6F47" opacity="0.7"/>
-          <rect x="160" y="130" width="80" height="145" fill="#C4A882" opacity="0.9"/>
-          <rect x="100" y="80" width="100" height="20" fill="#8B6F47" opacity="0.4"/>
-        </svg>
+        <img src="arts/image2.jpg" alt="Earth & Shadow by Rahul Desai" />
         <div class="art-overlay"></div>
       </div>
       <div class="art-info">
@@ -574,18 +617,11 @@
         <div class="art-artist">Rahul Desai</div>
         <div class="art-price">₹ 85,000</div>
       </div>
-    </div>
+    </a>
 
-    <div class="art-cell">
+    <a href="#" class="art-cell" onclick="openModal(event, 3, 'Concentric Void', 'Meera Iyer', '₹ 1,20,000')">
       <div class="art-image-wrap">
-        <svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <rect width="300" height="375" fill="#1B1B2F"/>
-          <ellipse cx="150" cy="187" rx="140" ry="160" fill="none" stroke="#7B2D8B" stroke-width="1" opacity="0.6"/>
-          <ellipse cx="150" cy="187" rx="100" ry="120" fill="none" stroke="#A855F7" stroke-width="0.8" opacity="0.5"/>
-          <ellipse cx="150" cy="187" rx="60" ry="80" fill="none" stroke="#C084FC" stroke-width="0.6" opacity="0.7"/>
-          <ellipse cx="150" cy="187" rx="25" ry="35" fill="#7B2D8B" opacity="0.8"/>
-          <circle cx="150" cy="187" r="10" fill="#C084FC" opacity="0.9"/>
-        </svg>
+        <img src="arts/image3.jpg" alt="Concentric Void by Meera Iyer" />
         <div class="art-overlay"></div>
       </div>
       <div class="art-info">
@@ -593,17 +629,11 @@
         <div class="art-artist">Meera Iyer</div>
         <div class="art-price">₹ 1,20,000</div>
       </div>
-    </div>
+    </a>
 
-    <div class="art-cell">
+    <a href="#" class="art-cell" onclick="openModal(event, 4, 'Still Waters', 'Ananya Krishnan', '₹ 65,000')">
       <div class="art-image-wrap">
-        <svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <rect width="300" height="375" fill="#F0F4F8"/>
-          <rect x="20" y="20" width="260" height="335" fill="#E8EDF2"/>
-          <line x1="40" y1="187" x2="260" y2="187" stroke="#9EAFC2" stroke-width="40" opacity="0.5"/>
-          <circle cx="150" cy="187" r="40" fill="none" stroke="#4A6FA5" stroke-width="1.5"/>
-          <circle cx="150" cy="187" r="4" fill="#4A6FA5"/>
-        </svg>
+        <img src="arts/image4.jpg" alt="Still Waters by Ananya Krishnan" />
         <div class="art-overlay"></div>
       </div>
       <div class="art-info">
@@ -611,22 +641,11 @@
         <div class="art-artist">Ananya Krishnan</div>
         <div class="art-price">₹ 65,000</div>
       </div>
-    </div>
+    </a>
 
-    <div class="art-cell">
+    <a href="#" class="art-cell" onclick="openModal(event, 5, 'The Last Flame', 'Arjun Pillai', '₹ 2,40,000')">
       <div class="art-image-wrap">
-        <svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <rect width="300" height="375" fill="#2D1B00"/>
-          <rect x="0" y="200" width="300" height="175" fill="#4A2E0A" opacity="0.8"/>
-          <ellipse cx="150" cy="200" rx="200" ry="80" fill="#FF6B00" opacity="0.25"/>
-          <ellipse cx="150" cy="195" rx="130" ry="50" fill="#FF8C00" opacity="0.35"/>
-          <ellipse cx="150" cy="190" rx="70" ry="30" fill="#FFC300" opacity="0.5"/>
-          <circle cx="150" cy="185" r="25" fill="#FFD700" opacity="0.8"/>
-          <circle cx="150" cy="183" r="12" fill="#FFF9C4" opacity="0.9"/>
-          <rect x="120" y="250" width="10" height="100" fill="#1A0A00"/>
-          <rect x="165" y="250" width="10" height="100" fill="#1A0A00"/>
-          <rect x="145" y="235" width="10" height="115" fill="#1A0A00"/>
-        </svg>
+        <img src="arts/image5.jpg" alt="The Last Flame by Arjun Pillai" />
         <div class="art-overlay"></div>
       </div>
       <div class="art-info">
@@ -634,20 +653,11 @@
         <div class="art-artist">Arjun Pillai</div>
         <div class="art-price">₹ 2,40,000</div>
       </div>
-    </div>
+    </a>
 
-    <div class="art-cell">
+    <a href="#" class="art-cell" onclick="openModal(event, 6, 'Geometric Reverie', 'Priya Subramaniam', '₹ 95,000')">
       <div class="art-image-wrap">
-        <svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <rect width="300" height="375" fill="#F7F3EE"/>
-          <rect x="50" y="50" width="200" height="275" fill="#EDE5D8" opacity="0.7"/>
-          <line x1="50" y1="50" x2="250" y2="325" stroke="#C9B99A" stroke-width="0.5"/>
-          <line x1="250" y1="50" x2="50" y2="325" stroke="#C9B99A" stroke-width="0.5"/>
-          <rect x="100" y="112" width="100" height="150" fill="#C9B99A" opacity="0.5"/>
-          <rect x="125" y="137" width="50" height="100" fill="#9E8870" opacity="0.6"/>
-          <circle cx="150" cy="145" r="20" fill="#F7F3EE" opacity="0.9"/>
-          <circle cx="150" cy="145" r="8" fill="#7A6653" opacity="0.7"/>
-        </svg>
+        <img src="arts/image6.jpg" alt="Geometric Reverie by Priya Subramaniam" />
         <div class="art-overlay"></div>
       </div>
       <div class="art-info">
@@ -655,14 +665,14 @@
         <div class="art-artist">Priya Subramaniam</div>
         <div class="art-price">₹ 95,000</div>
       </div>
-    </div>
+    </a>
   </div>
 
   <!-- ABOUT -->
   <section class="about-strip" id="about">
     <div class="about-text">
       <h2 class="about-heading">A gallery<br><em>without walls</em></h2>
-      <p class="about-body">Krira Gallery was founded on a single belief — that extraordinary art should not be confined to four walls. We champion artists whose work speaks across borders, cultures, and time zones. Our curation is deliberate, our relationships with artists long-term.</p>
+      <p class="about-body">Krira Gallery was founded on a single belief — that extraordinary art should not be confined to four walls. We champion artists whose work speaks across borders, cultures, and generations. Every piece in our collection tells a story — of vision, craft, and the courage to create.</p>
       <a href="mailto:hello@krira.art" class="btn-ghost">Get in touch →</a>
       <div class="about-stat-row">
         <div class="stat-block">
@@ -680,14 +690,7 @@
       </div>
     </div>
     <div class="about-image">
-      <svg viewBox="0 0 340 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-        <rect width="340" height="400" fill="#EDE5D8"/>
-        <rect x="40" y="40" width="120" height="160" rx="1" fill="#D4C5B0" opacity="0.6"/>
-        <rect x="180" y="60" width="120" height="120" rx="1" fill="#C4A882" opacity="0.5"/>
-        <rect x="40" y="220" width="80" height="140" rx="1" fill="#B8A090" opacity="0.4"/>
-        <rect x="140" y="200" width="160" height="160" rx="1" fill="#D4C5B0" opacity="0.7"/>
-        <text x="170" y="360" font-family="Georgia,serif" font-size="11" fill="#9E8870" text-anchor="middle" font-style="italic" opacity="0.7">Krira Gallery space</text>
-      </svg>
+      <img src="arts/image7.jpg" alt="Krira Gallery space" />
     </div>
   </section>
 
@@ -709,11 +712,29 @@
     <ul class="footer-links">
       <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
       <li><a href="mailto:priyankasinghworld@gmail.com">Contact</a></li>
-      <li><a href="#">Press</a></li>
+      <li><a href="#" onclick="scrollToSection(event, 'collection')">Gallery</a></li>
       <li><a href="#">Shipping</a></li>
     </ul>
     <div class="footer-copy">© 2025 Krira Gallery</div>
   </footer>
+
+  <!-- MODAL -->
+  <div class="modal" id="artModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <img src="" alt="" class="modal-image" id="modalImage" />
+      <div class="modal-info">
+        <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-bottom: 8px;" id="modalTitle"></h2>
+        <p style="font-size: 14px; color: var(--text2); margin-bottom: 12px;">
+          <span id="modalArtist"></span>
+        </p>
+        <p style="font-size: 14px; color: var(--text2); margin-bottom: 1.5rem;">
+          <strong>Price:</strong> <span id="modalPrice"></span>
+        </p>
+        <a href="mailto:hello@krira.art" class="btn-primary">Inquire about this piece</a>
+      </div>
+    </div>
+  </div>
 
   <script>
     function handleSubscribe(e) {
@@ -724,6 +745,42 @@
       input.value = '';
       setTimeout(() => { btn.textContent = 'Subscribe'; }, 3000);
     }
+
+    function scrollToSection(e, sectionId) {
+      e.preventDefault();
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function openModal(e, imageNum, title, artist, price) {
+      e.preventDefault();
+      document.getElementById('modalImage').src = `arts/image${imageNum}.jpg`;
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalArtist').textContent = artist;
+      document.getElementById('modalPrice').textContent = price;
+      document.getElementById('artModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('artModal').classList.remove('active');
+    }
+
+    // Close modal when clicking outside the content
+    document.addEventListener('click', function(e) {
+      const modal = document.getElementById('artModal');
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
   </script>
 
 </body>
