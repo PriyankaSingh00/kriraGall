@@ -154,29 +154,29 @@
     .section-link:hover { color: var(--text); }
 
     /* ── GALLERY GRID ── */
-    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 0.5px solid var(--border); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(6, 1fr); border-bottom: 0.5px solid var(--border); }
     .art-cell { border-right: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); cursor: pointer; overflow: hidden; position: relative; text-decoration: none; color: inherit; display: block; }
-    .art-cell:nth-child(3n) { border-right: none; }
-    .art-image-wrap { width: 100%; aspect-ratio: 4/5; overflow: hidden; position: relative; padding: 12px; background: #f5f1eb; }
+    .art-cell:nth-child(6n) { border-right: none; }
+    .art-image-wrap { width: 100%; aspect-ratio: 4/5; overflow: hidden; position: relative; padding: 6px; background: #f5f1eb; }
     .art-image-frame {
       width: 100%; height: 100%; overflow: hidden; position: relative;
-      box-shadow: inset 0 0 0 6px rgba(250,249,247,0.95), inset 0 0 0 7px rgba(26,23,20,0.09);
+      box-shadow: inset 0 0 0 3px rgba(250,249,247,0.95), inset 0 0 0 3.5px rgba(26,23,20,0.09);
     }
     .art-image-frame img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94); }
     .art-cell:hover .art-image-frame img { transform: scale(1.04); }
     .art-caption-overlay {
-      position: absolute; inset: 12px;
+      position: absolute; inset: 6px;
       background: linear-gradient(to top, rgba(10,9,7,0.84) 0%, transparent 55%);
       opacity: 0; transition: opacity 0.4s; pointer-events: none;
-      display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem 1rem;
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 0.6rem 0.5rem;
     }
     .art-cell:hover .art-caption-overlay { opacity: 1; }
-    .art-caption-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; color: #f5ede0; line-height: 1.2; margin-bottom: 4px; }
-    .art-caption-sub { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(201,169,110,0.8); }
-    .art-info { padding: 1rem 1.25rem 1.25rem; border-top: 0.5px solid var(--border); }
-    .art-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; margin-bottom: 4px; }
-    .art-artist { font-size: 11px; letter-spacing: 0.1em; color: var(--text2); margin-bottom: 3px; }
-    .art-medium { font-size: 11px; color: var(--text3); }
+    .art-caption-title { font-family: 'Cormorant Garamond', serif; font-size: 13px; font-style: italic; color: #f5ede0; line-height: 1.2; margin-bottom: 2px; }
+    .art-caption-sub { font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(201,169,110,0.8); }
+    .art-info { padding: 0.5rem 0.625rem 0.625rem; border-top: 0.5px solid var(--border); }
+    .art-title { font-family: 'Cormorant Garamond', serif; font-size: 13px; font-style: italic; margin-bottom: 2px; }
+    .art-artist { font-size: 9px; letter-spacing: 0.1em; color: var(--text2); margin-bottom: 2px; }
+    .art-medium { font-size: 9px; color: var(--text3); }
 
     /* ── QUOTE STRIP ── */
     .quote-strip { background: var(--bg2); padding: 3.5rem 2.5rem; text-align: center; border-bottom: 0.5px solid var(--border); }
@@ -256,7 +256,9 @@
       .hero-arrows { bottom: 3.5rem; right: 2rem; }
       .focus-carousel { grid-template-columns: 1fr; }
       .focus-panel { border-left: none; border-top: 0.5px solid rgba(255,255,255,0.05); }
-      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid { grid-template-columns: repeat(4, 1fr); }
+      .art-cell:nth-child(6n) { border-right: 0.5px solid var(--border); }
+      .art-cell:nth-child(4n) { border-right: none; }
       .about-strip { grid-template-columns: 1fr; }
       .about-image { min-height: 320px; }
       .footer-top { grid-template-columns: 1fr 1fr; }
@@ -267,7 +269,9 @@
       nav { padding: 0 1.5rem; }
       .nav-links { display: none; }
       .hero-title { font-size: 40px; }
-      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .art-cell:nth-child(4n) { border-right: 0.5px solid var(--border); }
+      .art-cell:nth-child(2n) { border-right: none; }
       .footer-top { grid-template-columns: 1fr; }
       footer { padding: 2.5rem 1.5rem 1.5rem; }
     }
