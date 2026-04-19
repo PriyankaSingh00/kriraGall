@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collection — Krira Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #faf9f7; --bg2: #f2ede8; --text: #1a1714; --text2: #6b6560;
+      --text3: #9e9892; --border: rgba(26,23,20,0.12); --border2: rgba(26,23,20,0.22);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; font-weight: 300; color: var(--text); background: var(--bg); min-height: 100vh; overflow-x: hidden; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 2.5rem; border-bottom: 0.5px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 200; }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; letter-spacing: 0.1em; color: var(--text); text-decoration: none; }
+    .nav-logo span { font-style: italic; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links li a { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text2); text-decoration: none; transition: color 0.2s; }
+    .nav-links li a:hover, .nav-links li a.active { color: var(--text); }
+    .nav-inquire { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text2); text-decoration: none; border-bottom: 0.5px solid var(--border2); padding-bottom: 1px; }
+    .page-header { padding: 3rem 2.5rem 2rem; border-bottom: 0.5px solid var(--border); display: flex; justify-content: space-between; align-items: flex-end; }
+    .page-eyebrow { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text2); margin-bottom: 0.75rem; }
+    .page-title { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 300; }
+    .page-count { font-size: 12px; color: var(--text3); letter-spacing: 0.1em; }
+    .layout { display: grid; grid-template-columns: 200px 1fr; }
+    .sidebar { border-right: 0.5px solid var(--border); padding: 2rem 1.5rem; position: sticky; top: 73px; height: fit-content; }
+    .filter-group { margin-bottom: 1.75rem; }
+    .filter-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text2); margin-bottom: 0.75rem; display: block; }
+    .filter-options { display: flex; flex-direction: column; gap: 0.4rem; }
+    .filter-btn { font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 300; color: var(--text2); background: none; border: none; cursor: pointer; text-align: left; padding: 4px 0; letter-spacing: 0.04em; transition: color 0.2s; display: flex; justify-content: space-between; }
+    .filter-btn:hover, .filter-btn.active { color: var(--text); }
+    .filter-btn.active { border-bottom: 0.5px solid var(--text); }
+    .filter-count { font-size: 10px; color: var(--text3); }
+    .filter-divider { border: none; border-top: 0.5px solid var(--border); margin: 1.25rem 0; }
+    .clear-btn { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); background: none; border: none; cursor: pointer; transition: color 0.2s; }
+    .clear-btn:hover { color: var(--text2); }
+    .grid-area { padding: 2rem; }
+    .sort-bar { display: flex; justify-content: flex-end; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 0.5px solid var(--border); }
+    .sort-label { font-size: 11px; color: var(--text2); }
+    .sort-select { font-family: 'Jost', sans-serif; font-size: 11px; color: var(--text); background: none; border: none; cursor: pointer; outline: none; }
+    .masonry { columns: 3; column-gap: 1.25rem; }
+    .art-item { break-inside: avoid; margin-bottom: 1.25rem; cursor: pointer; opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .art-item.visible { opacity: 1; transform: translateY(0); }
+    .art-item-inner { position: relative; overflow: hidden; }
+    .art-item-inner svg { width: 100%; display: block; transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+    .art-item:hover .art-item-inner svg { transform: scale(1.04); }
+    .art-hover-info { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 55%); opacity: 0; transition: opacity 0.3s; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem; }
+    .art-item:hover .art-hover-info { opacity: 1; }
+    .art-hover-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: #fff; margin-bottom: 3px; }
+    .art-hover-artist { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.65); }
+    .art-hover-price { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 4px; }
+    .art-meta { padding: 0.75rem 0 0; }
+    .art-meta-title { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-style: italic; }
+    .art-meta-artist { font-size: 10px; letter-spacing: 0.12em; color: var(--text2); margin-top: 2px; text-transform: uppercase; }
+    .lightbox { position: fixed; inset: 0; background: rgba(15,12,10,0.96); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.35s; }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox-inner { display: grid; grid-template-columns: 1fr 340px; max-width: 1100px; width: 90vw; max-height: 88vh; background: var(--bg); overflow: hidden; }
+    .lightbox-image { display: flex; align-items: center; justify-content: center; background: #1a1510; overflow: hidden; }
+    .lightbox-image svg { max-height: 88vh; width: 100%; display: block; }
+    .lightbox-info { padding: 2.5rem; display: flex; flex-direction: column; border-left: 0.5px solid var(--border); overflow-y: auto; }
+    .lightbox-eyebrow { font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text3); margin-bottom: 1.25rem; }
+    .lightbox-title { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 300; font-style: italic; line-height: 1.15; margin-bottom: 0.5rem; }
+    .lightbox-artist { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text2); margin-bottom: 1.5rem; }
+    .lightbox-divider { border: none; border-top: 0.5px solid var(--border); margin: 1rem 0; }
+    .lightbox-meta-row { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 0.5rem; }
+    .meta-line { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); }
+    .meta-line span:first-child { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); }
+    .lightbox-price { font-family: 'Cormorant Garamond', serif; font-size: 22px; margin-bottom: 1.5rem; }
+    .lightbox-actions { margin-top: auto; display: flex; flex-direction: column; gap: 0.75rem; }
+    .btn-primary { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; padding: 13px 28px; background: var(--text); color: var(--bg); border: none; cursor: pointer; text-decoration: none; display: block; transition: opacity 0.2s; text-align: center; }
+    .btn-primary:hover { opacity: 0.75; }
+    .btn-ghost { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; padding: 12px; background: none; color: var(--text2); border: none; cursor: pointer; text-decoration: none; border-bottom: 0.5px solid var(--border2); display: block; transition: color 0.2s; text-align: center; }
+    .btn-ghost:hover { color: var(--text); }
+    .lightbox-close { position: fixed; top: 1.5rem; right: 1.5rem; background: none; border: none; cursor: pointer; font-size: 20px; color: rgba(255,255,255,0.4); transition: color 0.2s; z-index: 1001; }
+    .lightbox-close:hover { color: #fff; }
+    .lightbox-nav { position: fixed; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.35); font-size: 32px; font-weight: 200; padding: 1rem; transition: color 0.2s; z-index: 1001; }
+    .lightbox-nav:hover { color: rgba(255,255,255,0.8); }
+    .lightbox-nav.prev { left: 1rem; }
+    .lightbox-nav.next { right: 360px; }
+    footer { padding: 2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; border-top: 0.5px solid var(--border); margin-top: 2rem; }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 300; }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links li a { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text2); text-decoration: none; }
+    .footer-copy { font-size: 11px; color: var(--text3); }
+    @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .sidebar { position: static; border-right: none; border-bottom: 0.5px solid var(--border); display: flex; gap: 1.5rem; flex-wrap: wrap; } .filter-group { margin-bottom: 0; } .filter-options { flex-direction: row; flex-wrap: wrap; gap: 0.5rem; } .masonry { columns: 2; } .lightbox-inner { grid-template-columns: 1fr; } .lightbox-nav.next { right: 1rem; } }
+    @media (max-width: 580px) { .masonry { columns: 1; } nav { padding: 1.2rem 1.5rem; } .nav-links { display: none; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">Krir<span>a</span></a>
+    <ul class="nav-links">
+      <li><a href="collection.html" class="active">Collection</a></li>
+      <li><a href="artists.html">Artists</a></li>
+      <li><a href="#">Exhibitions</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <a href="mailto:hello@krira.art" class="nav-inquire">Inquire</a>
+  </nav>
+
+  <div class="page-header">
+    <div>
+      <p class="page-eyebrow">Krira Gallery</p>
+      <h1 class="page-title">The Collection</h1>
+    </div>
+    <span class="page-count" id="workCount">18 works</span>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="filter-group">
+        <span class="filter-label">Medium</span>
+        <div class="filter-options">
+          <button class="filter-btn active" data-filter="medium" data-value="all">All <span class="filter-count">18</span></button>
+          <button class="filter-btn" data-filter="medium" data-value="oil">Oil on canvas <span class="filter-count">6</span></button>
+          <button class="filter-btn" data-filter="medium" data-value="watercolour">Watercolour <span class="filter-count">4</span></button>
+          <button class="filter-btn" data-filter="medium" data-value="mixed">Mixed media <span class="filter-count">5</span></button>
+          <button class="filter-btn" data-filter="medium" data-value="photography">Photography <span class="filter-count">3</span></button>
+        </div>
+      </div>
+      <hr class="filter-divider"/>
+      <div class="filter-group">
+        <span class="filter-label">Year</span>
+        <div class="filter-options">
+          <button class="filter-btn active" data-filter="year" data-value="all">All years</button>
+          <button class="filter-btn" data-filter="year" data-value="2024">2024</button>
+          <button class="filter-btn" data-filter="year" data-value="2023">2023</button>
+          <button class="filter-btn" data-filter="year" data-value="2022">2022 &amp; earlier</button>
+        </div>
+      </div>
+      <hr class="filter-divider"/>
+      <div class="filter-group">
+        <span class="filter-label">Style</span>
+        <div class="filter-options">
+          <button class="filter-btn active" data-filter="style" data-value="all">All styles</button>
+          <button class="filter-btn" data-filter="style" data-value="abstract">Abstract</button>
+          <button class="filter-btn" data-filter="style" data-value="figurative">Figurative</button>
+          <button class="filter-btn" data-filter="style" data-value="landscape">Landscape</button>
+          <button class="filter-btn" data-filter="style" data-value="geometric">Geometric</button>
+        </div>
+      </div>
+      <hr class="filter-divider"/>
+      <button class="clear-btn" id="clearFilters">Clear filters</button>
+    </aside>
+
+    <main class="grid-area">
+      <div class="sort-bar">
+        <span class="sort-label">Sort by</span>
+        <select class="sort-select" id="sortSelect">
+          <option value="featured">Featured</option>
+          <option value="newest">Newest first</option>
+          <option value="price-asc">Price: low → high</option>
+          <option value="price-desc">Price: high → low</option>
+        </select>
+      </div>
+      <div class="masonry" id="masonryGrid"></div>
+    </main>
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <button class="lightbox-nav prev" id="prevBtn">‹</button>
+    <div class="lightbox-inner">
+      <div class="lightbox-image" id="lightboxImage"></div>
+      <div class="lightbox-info">
+        <p class="lightbox-eyebrow">Current collection — Krira Gallery</p>
+        <h2 class="lightbox-title" id="lbTitle"></h2>
+        <p class="lightbox-artist" id="lbArtist"></p>
+        <hr class="lightbox-divider"/>
+        <div class="lightbox-meta-row" id="lbMeta"></div>
+        <hr class="lightbox-divider"/>
+        <div class="lightbox-price" id="lbPrice"></div>
+        <div class="lightbox-actions">
+          <a href="mailto:hello@krira.art" class="btn-primary">Inquire about this work</a>
+          <a href="artwork.html" class="btn-ghost">View full details →</a>
+        </div>
+      </div>
+    </div>
+    <button class="lightbox-nav next" id="nextBtn">›</button>
+  </div>
+
+  <footer>
+    <div class="footer-logo">Krira</div>
+    <ul class="footer-links">
+      <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+      <li><a href="mailto:hello@krira.art">Contact</a></li>
+      <li><a href="#">Shipping</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Krira Gallery</div>
+  </footer>
+
+  <script>
+  const works=[{id:1,title:"Orbital Memory",artist:"Kavya Nair",price:"Inquire",priceVal:0,medium:"oil",year:"2024",style:"abstract",size:"90 × 120 cm",svg:`<svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#16213E"/><stop offset="100%" stop-color="#0F3460"/></linearGradient></defs><rect width="300" height="375" fill="url(#g1)"/><circle cx="150" cy="180" r="90" fill="#E94560" opacity="0.8"/><circle cx="150" cy="180" r="60" fill="#0F3460" opacity="0.6"/><circle cx="150" cy="180" r="32" fill="#E94560" opacity="0.9"/><line x1="60" y1="180" x2="240" y2="180" stroke="#fff" stroke-width="0.5" opacity="0.3"/><line x1="150" y1="60" x2="150" y2="300" stroke="#fff" stroke-width="0.5" opacity="0.3"/></svg>`},
+  {id:2,title:"Earth & Shadow",artist:"Rahul Desai",price:"₹ 85,000",priceVal:85000,medium:"oil",year:"2023",style:"abstract",size:"60 × 90 cm",svg:`<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="400" fill="#F5ECD7"/><rect x="30" y="30" width="240" height="340" fill="#EAD9C0"/><line x1="0" y1="200" x2="300" y2="200" stroke="#C4A882" stroke-width="70" opacity="0.4"/><rect x="60" y="110" width="80" height="180" fill="#8B6F47" opacity="0.7"/><rect x="160" y="140" width="80" height="150" fill="#C4A882" opacity="0.9"/></svg>`},
+  {id:3,title:"Concentric Void",artist:"Meera Iyer",price:"₹ 1,20,000",priceVal:120000,medium:"mixed",year:"2024",style:"geometric",size:"100 × 100 cm",svg:`<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="#1B1B2F"/><ellipse cx="150" cy="150" rx="140" ry="130" fill="none" stroke="#7B2D8B" stroke-width="1" opacity="0.6"/><ellipse cx="150" cy="150" rx="100" ry="92" fill="none" stroke="#A855F7" stroke-width="0.8" opacity="0.5"/><ellipse cx="150" cy="150" rx="60" ry="54" fill="none" stroke="#C084FC" stroke-width="0.6" opacity="0.7"/><ellipse cx="150" cy="150" rx="25" ry="22" fill="#7B2D8B" opacity="0.8"/><circle cx="150" cy="150" r="10" fill="#C084FC" opacity="0.9"/></svg>`},
+  {id:4,title:"Still Waters",artist:"Ananya Krishnan",price:"₹ 65,000",priceVal:65000,medium:"watercolour",year:"2023",style:"landscape",size:"50 × 70 cm",svg:`<svg viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="420" fill="#F0F4F8"/><rect x="0" y="210" width="300" height="210" fill="#dce8f2" opacity="0.7"/><line x1="40" y1="210" x2="260" y2="210" stroke="#9EAFC2" stroke-width="50" opacity="0.4"/><circle cx="150" cy="210" r="40" fill="none" stroke="#4A6FA5" stroke-width="1.5"/><circle cx="150" cy="210" r="4" fill="#4A6FA5"/></svg>`},
+  {id:5,title:"The Last Flame",artist:"Arjun Pillai",price:"₹ 2,40,000",priceVal:240000,medium:"oil",year:"2024",style:"figurative",size:"120 × 180 cm",svg:`<svg viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="380" fill="#2D1B00"/><rect x="0" y="220" width="300" height="160" fill="#4A2E0A" opacity="0.8"/><ellipse cx="150" cy="220" rx="200" ry="80" fill="#FF6B00" opacity="0.25"/><ellipse cx="150" cy="210" rx="130" ry="50" fill="#FF8C00" opacity="0.35"/><ellipse cx="150" cy="200" rx="70" ry="30" fill="#FFC300" opacity="0.5"/><circle cx="150" cy="195" r="25" fill="#FFD700" opacity="0.8"/><circle cx="150" cy="192" r="12" fill="#FFF9C4" opacity="0.9"/><rect x="120" y="260" width="10" height="90" fill="#1A0A00"/><rect x="165" y="260" width="10" height="90" fill="#1A0A00"/><rect x="145" y="245" width="10" height="105" fill="#1A0A00"/></svg>`},
+  {id:6,title:"Geometric Reverie",artist:"Priya Subramaniam",price:"₹ 95,000",priceVal:95000,medium:"mixed",year:"2023",style:"geometric",size:"80 × 80 cm",svg:`<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="#F7F3EE"/><rect x="50" y="50" width="200" height="200" fill="#EDE5D8" opacity="0.7"/><line x1="50" y1="50" x2="250" y2="250" stroke="#C9B99A" stroke-width="0.5"/><line x1="250" y1="50" x2="50" y2="250" stroke="#C9B99A" stroke-width="0.5"/><rect x="100" y="100" width="100" height="100" fill="#C9B99A" opacity="0.5"/><rect x="125" y="125" width="50" height="50" fill="#9E8870" opacity="0.6"/><circle cx="150" cy="130" r="20" fill="#F7F3EE" opacity="0.9"/><circle cx="150" cy="130" r="8" fill="#7A6653" opacity="0.7"/></svg>`},
+  {id:7,title:"Solitude IV",artist:"Arya Menon",price:"₹ 3,80,000",priceVal:380000,medium:"oil",year:"2024",style:"abstract",size:"150 × 200 cm",svg:`<svg viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="380" fill="#1a1510"/><ellipse cx="100" cy="140" rx="160" ry="120" fill="#8B5E3C" opacity="0.25"/><ellipse cx="220" cy="280" rx="120" ry="160" fill="#4A3728" opacity="0.3"/><rect x="40" y="70" width="220" height="240" fill="none" stroke="#C4986A" stroke-width="0.5" opacity="0.4"/><circle cx="150" cy="190" r="70" fill="none" stroke="#C4986A" stroke-width="0.5" opacity="0.5"/><text x="150" y="188" font-family="Georgia,serif" font-size="11" fill="#C4986A" opacity="0.6" text-anchor="middle" letter-spacing="4" font-style="italic">Solitude IV</text></svg>`},
+  {id:8,title:"Rain Study No. 3",artist:"Ananya Krishnan",price:"₹ 42,000",priceVal:42000,medium:"watercolour",year:"2023",style:"landscape",size:"40 × 60 cm",svg:`<svg viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="450" fill="#e8eef5"/><rect x="0" y="0" width="300" height="180" fill="#c4d4e8" opacity="0.4"/><line x1="20" y1="0" x2="30" y2="450" stroke="#a0b8d4" stroke-width="0.3" opacity="0.4"/><line x1="60" y1="0" x2="70" y2="450" stroke="#a0b8d4" stroke-width="0.3" opacity="0.4"/><line x1="110" y1="0" x2="120" y2="450" stroke="#a0b8d4" stroke-width="0.3" opacity="0.4"/><line x1="160" y1="0" x2="170" y2="450" stroke="#a0b8d4" stroke-width="0.3" opacity="0.4"/><line x1="210" y1="0" x2="220" y2="450" stroke="#a0b8d4" stroke-width="0.3" opacity="0.4"/><ellipse cx="150" cy="320" rx="120" ry="20" fill="#b8cce0" opacity="0.4"/></svg>`},
+  {id:9,title:"The Cartographer",artist:"Rahul Desai",price:"₹ 1,10,000",priceVal:110000,medium:"mixed",year:"2022",style:"abstract",size:"90 × 120 cm",svg:`<svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="375" fill="#f4f0e8"/><rect x="20" y="20" width="260" height="335" fill="none" stroke="#c4b89a" stroke-width="0.5"/><circle cx="150" cy="187" r="80" fill="none" stroke="#8B7355" stroke-width="0.5" opacity="0.6"/><circle cx="150" cy="187" r="40" fill="none" stroke="#8B7355" stroke-width="0.5" opacity="0.4"/><circle cx="150" cy="187" r="8" fill="#8B7355" opacity="0.5"/><circle cx="190" cy="150" r="4" fill="#C4884A" opacity="0.8"/><circle cx="110" cy="210" r="3" fill="#C4884A" opacity="0.6"/></svg>`},
+  {id:10,title:"Monsoon Light",artist:"Arya Menon",price:"₹ 1,80,000",priceVal:180000,medium:"oil",year:"2024",style:"landscape",size:"100 × 140 cm",svg:`<svg viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="420" fill="#2a3240"/><rect x="0" y="0" width="300" height="250" fill="#3a4a5e" opacity="0.8"/><rect x="0" y="250" width="300" height="170" fill="#1a2230" opacity="0.9"/><ellipse cx="60" cy="100" rx="80" ry="60" fill="#8899aa" opacity="0.2"/><ellipse cx="200" cy="80" rx="100" ry="70" fill="#8899aa" opacity="0.15"/><line x1="0" y1="252" x2="300" y2="248" stroke="#c4985a" stroke-width="1" opacity="0.3"/></svg>`},
+  {id:11,title:"Fragment I",artist:"Meera Iyer",price:"₹ 55,000",priceVal:55000,medium:"photography",year:"2023",style:"abstract",size:"40 × 50 cm (ed. 5)",svg:`<svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="375" fill="#f8f6f2"/><rect x="40" y="60" width="220" height="260" fill="#e8e2da"/><rect x="40" y="60" width="110" height="130" fill="#d4c8b8" opacity="0.8"/><rect x="150" y="190" width="110" height="130" fill="#c4b8a8" opacity="0.8"/><line x1="150" y1="60" x2="150" y2="320" stroke="#a09080" stroke-width="0.5" opacity="0.4"/><line x1="40" y1="190" x2="260" y2="190" stroke="#a09080" stroke-width="0.5" opacity="0.4"/></svg>`},
+  {id:12,title:"Drift",artist:"Kavya Nair",price:"₹ 75,000",priceVal:75000,medium:"watercolour",year:"2024",style:"abstract",size:"50 × 70 cm",svg:`<svg viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="420" fill="#f0ece4"/><ellipse cx="130" cy="200" rx="120" ry="100" fill="#c4d0e0" opacity="0.5"/><ellipse cx="180" cy="240" rx="100" ry="80" fill="#e0c4b0" opacity="0.4"/><ellipse cx="160" cy="210" rx="60" ry="50" fill="#d0c8e8" opacity="0.5"/><ellipse cx="140" cy="220" rx="30" ry="25" fill="#b0c4d8" opacity="0.6"/></svg>`},
+  {id:13,title:"Inner Archive",artist:"Priya Subramaniam",price:"₹ 1,45,000",priceVal:145000,medium:"mixed",year:"2022",style:"abstract",size:"80 × 100 cm",svg:`<svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="375" fill="#1c1a16"/><rect x="60" y="80" width="70" height="110" fill="#3a2e20" opacity="0.8"/><rect x="150" y="100" width="90" height="90" fill="#2e2418" opacity="0.9"/><circle cx="95" cy="270" r="40" fill="none" stroke="#c4986a" stroke-width="0.5" opacity="0.4"/><circle cx="190" cy="260" r="30" fill="none" stroke="#c4986a" stroke-width="0.5" opacity="0.3"/></svg>`},
+  {id:14,title:"Threshold",artist:"Arjun Pillai",price:"₹ 3,20,000",priceVal:320000,medium:"oil",year:"2024",style:"figurative",size:"130 × 180 cm",svg:`<svg viewBox="0 0 300 410" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="410" fill="#0d0a08"/><rect x="80" y="0" width="140" height="410" fill="#1a1410" opacity="0.8"/><ellipse cx="150" cy="200" rx="50" ry="180" fill="#3a2510" opacity="0.6"/><ellipse cx="150" cy="200" rx="20" ry="120" fill="#c4984a" opacity="0.15"/></svg>`},
+  {id:15,title:"Afternoon Haze",artist:"Ananya Krishnan",price:"₹ 38,000",priceVal:38000,medium:"watercolour",year:"2022",style:"landscape",size:"35 × 50 cm",svg:`<svg viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="420" fill="#f8f0e0"/><rect x="0" y="0" width="300" height="200" fill="#f0dcc0" opacity="0.6"/><rect x="0" y="200" width="300" height="220" fill="#e8d4a8" opacity="0.6"/><ellipse cx="150" cy="200" rx="200" ry="8" fill="#d4b870" opacity="0.3"/><ellipse cx="80" cy="120" rx="60" ry="40" fill="#e8c888" opacity="0.3"/></svg>`},
+  {id:16,title:"Negative Space",artist:"Meera Iyer",price:"₹ 88,000",priceVal:88000,medium:"photography",year:"2024",style:"geometric",size:"60 × 80 cm (ed. 3)",svg:`<svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="375" fill="#f5f3f0"/><rect x="80" y="80" width="140" height="215" fill="#1a1714" opacity="0.85"/><rect x="110" y="110" width="80" height="155" fill="#f5f3f0"/></svg>`},
+  {id:17,title:"Tectonic",artist:"Rahul Desai",price:"₹ 1,60,000",priceVal:160000,medium:"mixed",year:"2023",style:"abstract",size:"110 × 110 cm",svg:`<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="#e8e0d0"/><polygon points="0,300 150,80 300,300" fill="#c4a870" opacity="0.5"/><polygon points="0,300 200,60 300,200" fill="#a08858" opacity="0.4"/><polygon points="100,300 150,100 250,300" fill="#d4b880" opacity="0.3"/></svg>`},
+  {id:18,title:"Portrait in Blue",artist:"Kavya Nair",price:"₹ 2,10,000",priceVal:210000,medium:"oil",year:"2022",style:"figurative",size:"90 × 120 cm",svg:`<svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="375" fill="#e0e8f0"/><ellipse cx="150" cy="140" rx="65" ry="80" fill="#a0b4c8" opacity="0.7"/><ellipse cx="150" cy="270" rx="90" ry="60" fill="#8090a8" opacity="0.5"/><ellipse cx="150" cy="145" rx="40" ry="50" fill="#c8d4e0" opacity="0.8"/><circle cx="135" cy="130" r="6" fill="#4a5868" opacity="0.7"/><circle cx="165" cy="130" r="6" fill="#4a5868" opacity="0.7"/></svg>`}];
+
+  let activeFilters={medium:'all',year:'all',style:'all'};
+  let currentIdx=0;
+  let visible=[...works];
+
+  function renderGrid(items){
+    const g=document.getElementById('masonryGrid');
+    g.innerHTML='';
+    items.forEach((w,i)=>{
+      const d=document.createElement('div');
+      d.className='art-item';
+      d.innerHTML=`<div class="art-item-inner">${w.svg}<div class="art-hover-info"><div class="art-hover-title">${w.title}</div><div class="art-hover-artist">${w.artist}</div><div class="art-hover-price">${w.price}</div></div></div><div class="art-meta"><div class="art-meta-title">${w.title}</div><div class="art-meta-artist">${w.artist}</div></div>`;
+      d.addEventListener('click',()=>openLightbox(w,i));
+      g.appendChild(d);
+      setTimeout(()=>d.classList.add('visible'),40+i*25);
+    });
+    document.getElementById('workCount').textContent=`${items.length} works`;
+  }
+
+  function applyFilters(){
+    visible=works.filter(w=>{
+      const m=activeFilters.medium==='all'||w.medium===activeFilters.medium;
+      const y=activeFilters.year==='all'||(activeFilters.year==='2022'?parseInt(w.year)<=2022:w.year===activeFilters.year);
+      const s=activeFilters.style==='all'||w.style===activeFilters.style;
+      return m&&y&&s;
+    });
+    const sort=document.getElementById('sortSelect').value;
+    if(sort==='newest') visible.sort((a,b)=>b.year-a.year);
+    else if(sort==='price-asc') visible.sort((a,b)=>a.priceVal-b.priceVal);
+    else if(sort==='price-desc') visible.sort((a,b)=>b.priceVal-a.priceVal);
+    renderGrid(visible);
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const t=btn.dataset.filter;
+      document.querySelectorAll(`[data-filter="${t}"]`).forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilters[t]=btn.dataset.value;
+      applyFilters();
+    });
+  });
+
+  document.getElementById('clearFilters').addEventListener('click',()=>{
+    activeFilters={medium:'all',year:'all',style:'all'};
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b.dataset.value==='all'));
+    applyFilters();
+  });
+
+  document.getElementById('sortSelect').addEventListener('change',applyFilters);
+
+  function openLightbox(w,idx){
+    currentIdx=idx;
+    document.getElementById('lbTitle').textContent=w.title;
+    document.getElementById('lbArtist').textContent=w.artist;
+    document.getElementById('lbPrice').textContent=w.price;
+    document.getElementById('lightboxImage').innerHTML=w.svg;
+    document.getElementById('lbMeta').innerHTML=`<div class="meta-line"><span>Medium</span><span>${w.medium.charAt(0).toUpperCase()+w.medium.slice(1)}</span></div><div class="meta-line"><span>Dimensions</span><span>${w.size}</span></div><div class="meta-line"><span>Year</span><span>${w.year}</span></div><div class="meta-line"><span>Style</span><span>${w.style.charAt(0).toUpperCase()+w.style.slice(1)}</span></div>`;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow='';
+  }
+
+  document.getElementById('lightboxClose').addEventListener('click',closeLightbox);
+  document.getElementById('lightbox').addEventListener('click',e=>{if(e.target===e.currentTarget)closeLightbox();});
+  document.getElementById('prevBtn').addEventListener('click',()=>{currentIdx=(currentIdx-1+visible.length)%visible.length;openLightbox(visible[currentIdx],currentIdx);});
+  document.getElementById('nextBtn').addEventListener('click',()=>{currentIdx=(currentIdx+1)%visible.length;openLightbox(visible[currentIdx],currentIdx);});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();if(e.key==='ArrowLeft')document.getElementById('prevBtn').click();if(e.key==='ArrowRight')document.getElementById('nextBtn').click();});
+
+  renderGrid(works);
+  </script>
+</body>
+</html>

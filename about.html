@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Krira Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #faf9f7; --bg2: #f2ede8; --text: #1a1714; --text2: #6b6560; --text3: #9e9892; --border: rgba(26,23,20,0.12); --border2: rgba(26,23,20,0.22); }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; font-weight: 300; color: var(--text); background: var(--bg); overflow-x: hidden; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 2.5rem; border-bottom: 0.5px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 100; }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; letter-spacing: 0.1em; color: var(--text); text-decoration: none; }
+    .nav-logo span { font-style: italic; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links li a { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text2); text-decoration: none; transition: color 0.2s; }
+    .nav-links li a:hover, .nav-links li a.active { color: var(--text); }
+    .nav-inquire { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text2); text-decoration: none; border-bottom: 0.5px solid var(--border2); padding-bottom: 1px; }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* HERO */
+    .about-hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 85vh; border-bottom: 0.5px solid var(--border); }
+    .about-hero-image { background: #1a1510; overflow: hidden; position: relative; }
+    .about-hero-image svg { width: 100%; height: 100%; min-height: 500px; display: block; }
+    .about-hero-content { display: flex; flex-direction: column; justify-content: center; padding: 5rem 4rem; border-left: 0.5px solid var(--border); }
+    .about-eyebrow { font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--text2); margin-bottom: 1.5rem; }
+    .about-hero-title { font-family: 'Cormorant Garamond', serif; font-size: 56px; font-weight: 300; line-height: 1.05; margin-bottom: 2rem; }
+    .about-hero-title em { font-style: italic; }
+    .about-hero-body { font-size: 15px; color: var(--text2); line-height: 1.85; max-width: 380px; }
+
+    /* STORY */
+    .story-section { padding: 5rem 2.5rem; border-bottom: 0.5px solid var(--border); }
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .story-heading { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-weight: 300; line-height: 1.1; margin-bottom: 2rem; }
+    .story-heading em { font-style: italic; }
+    .story-body { font-size: 14px; color: var(--text2); line-height: 1.9; margin-bottom: 1.5rem; }
+    .story-pull { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; color: var(--text2); line-height: 1.5; border-left: 1.5px solid var(--border2); padding-left: 1.5rem; margin: 2.5rem 0; }
+
+    /* STATS */
+    .stats-section { border-bottom: 0.5px solid var(--border); display: grid; grid-template-columns: repeat(4, 1fr); }
+    .stat-cell { padding: 2.5rem 2rem; border-right: 0.5px solid var(--border); text-align: center; }
+    .stat-cell:last-child { border-right: none; }
+    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; line-height: 1; margin-bottom: 0.5rem; }
+    .stat-lbl { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text2); }
+    .stat-body { font-size: 12px; color: var(--text3); margin-top: 0.5rem; line-height: 1.5; }
+
+    /* VALUES */
+    .values-section { padding: 5rem 2.5rem; border-bottom: 0.5px solid var(--border); }
+    .values-eyebrow { font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--text2); margin-bottom: 2.5rem; }
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+    .value-item { padding: 2.5rem 2rem; border-right: 0.5px solid var(--border); }
+    .value-item:last-child { border-right: none; }
+    .value-num { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: var(--border2); line-height: 1; margin-bottom: 1rem; }
+    .value-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; margin-bottom: 0.75rem; }
+    .value-body { font-size: 13px; color: var(--text2); line-height: 1.75; }
+
+    /* TEAM */
+    .team-section { padding: 5rem 2.5rem; border-bottom: 0.5px solid var(--border); }
+    .team-eyebrow { font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--text2); margin-bottom: 2.5rem; }
+    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+    .team-member { border-right: 0.5px solid var(--border); overflow: hidden; }
+    .team-member:last-child { border-right: none; }
+    .team-portrait { width: 100%; aspect-ratio: 4/5; overflow: hidden; }
+    .team-portrait svg { width: 100%; height: 100%; display: block; }
+    .team-info { padding: 1.5rem; border-top: 0.5px solid var(--border); }
+    .team-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; margin-bottom: 4px; }
+    .team-role { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text2); margin-bottom: 0.75rem; }
+    .team-bio { font-size: 12px; color: var(--text2); line-height: 1.7; }
+
+    /* CONTACT SECTION */
+    .contact-section { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 0.5px solid var(--border); }
+    .contact-left { padding: 4rem 2.5rem; border-right: 0.5px solid var(--border); }
+    .contact-heading { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; line-height: 1.2; margin-bottom: 1.5rem; }
+    .contact-heading em { font-style: italic; }
+    .contact-body { font-size: 14px; color: var(--text2); line-height: 1.8; margin-bottom: 2rem; max-width: 380px; }
+    .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    .contact-link { font-size: 13px; color: var(--text2); text-decoration: none; display: flex; align-items: center; gap: 0.75rem; transition: color 0.2s; }
+    .contact-link:hover { color: var(--text); }
+    .contact-link-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); width: 60px; }
+    .contact-right { padding: 4rem 2.5rem; background: var(--bg2); }
+    .contact-form-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; margin-bottom: 2rem; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text2); display: block; margin-bottom: 0.5rem; }
+    .form-input, .form-textarea { font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 300; width: 100%; padding: 10px 0; border: none; border-bottom: 0.5px solid var(--border2); background: none; color: var(--text); outline: none; letter-spacing: 0.04em; transition: border-color 0.2s; }
+    .form-input:focus, .form-textarea:focus { border-bottom-color: var(--text); }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--text3); }
+    .form-textarea { resize: none; height: 80px; }
+    .btn-primary { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; padding: 14px 28px; background: var(--text); color: var(--bg); border: none; cursor: pointer; transition: opacity 0.2s; margin-top: 0.75rem; }
+    .btn-primary:hover { opacity: 0.75; }
+
+    footer { padding: 2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; border-top: 0.5px solid var(--border); }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 300; }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links li a { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text2); text-decoration: none; }
+    .footer-copy { font-size: 11px; color: var(--text3); }
+
+    @media (max-width: 900px) { .about-hero { grid-template-columns: 1fr; } .about-hero-content { padding: 2.5rem 1.5rem; } .story-grid { grid-template-columns: 1fr; gap: 2rem; } .stats-section { grid-template-columns: repeat(2,1fr); } .stat-cell:nth-child(2) { border-right: none; } .stat-cell:nth-child(3) { border-top: 0.5px solid var(--border); } .values-grid { grid-template-columns: 1fr; } .value-item { border-right: none; border-bottom: 0.5px solid var(--border); } .team-grid { grid-template-columns: 1fr 1fr; } .contact-section { grid-template-columns: 1fr; } .contact-left { border-right: none; } nav { padding: 1.2rem 1.5rem; } .nav-links { display: none; } }
+    @media (max-width: 600px) { .team-grid { grid-template-columns: 1fr; } .stats-section { grid-template-columns: 1fr 1fr; } .about-hero-title { font-size: 38px; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">Krir<span>a</span></a>
+    <ul class="nav-links">
+      <li><a href="collection.html">Collection</a></li>
+      <li><a href="artists.html">Artists</a></li>
+      <li><a href="#">Exhibitions</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+    </ul>
+    <a href="mailto:hello@krira.art" class="nav-inquire">Inquire</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="about-hero">
+    <div class="about-hero-image">
+      <svg viewBox="0 0 600 720" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <rect width="600" height="720" fill="#1a1510"/>
+        <ellipse cx="150" cy="220" rx="300" ry="200" fill="#8B5E3C" opacity="0.18"/>
+        <ellipse cx="450" cy="550" rx="250" ry="320" fill="#4A3728" opacity="0.22"/>
+        <rect x="60" y="100" width="480" height="520" rx="2" fill="none" stroke="#C4986A" stroke-width="0.5" opacity="0.3"/>
+        <rect x="100" y="140" width="400" height="440" rx="2" fill="none" stroke="#C4986A" stroke-width="0.3" opacity="0.2"/>
+        <line x1="300" y1="100" x2="300" y2="620" stroke="#C4986A" stroke-width="0.3" opacity="0.15"/>
+        <line x1="60" y1="360" x2="540" y2="360" stroke="#C4986A" stroke-width="0.3" opacity="0.15"/>
+        <circle cx="300" cy="360" r="100" fill="none" stroke="#C4986A" stroke-width="0.4" opacity="0.3"/>
+        <text x="300" y="354" font-family="Georgia,serif" font-size="14" fill="#C4986A" opacity="0.5" text-anchor="middle" letter-spacing="8" font-style="italic">Krira Gallery</text>
+        <text x="300" y="376" font-family="Arial,sans-serif" font-size="9" fill="#C4986A" opacity="0.3" text-anchor="middle" letter-spacing="4">est. 2022 · Bengaluru</text>
+      </svg>
+    </div>
+    <div class="about-hero-content">
+      <p class="about-eyebrow reveal">Our story</p>
+      <h1 class="about-hero-title reveal reveal-delay-1">A gallery<br><em>without</em><br>walls</h1>
+      <p class="about-hero-body reveal reveal-delay-2">Founded in 2022 in Bengaluru, Krira Gallery began with a single belief — that extraordinary art should not be confined to geography, to privilege, or to the physical limits of a room with four walls.</p>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="story-section">
+    <div class="story-grid">
+      <div class="reveal">
+        <h2 class="story-heading">How Krira<br><em>came to be</em></h2>
+        <p class="story-body">Krira Gallery was founded by Priyanka Singh, a collector and former art educator who spent a decade watching extraordinary work go unseen — not for lack of quality, but for lack of access. The gallery's name is drawn from the Sanskrit word कृत — "made with intention."</p>
+        <p class="story-body">From a small studio in Indiranagar, Bengaluru, Krira began representing six artists. Within two years, it had facilitated over 320 collections across 12 countries, entirely online, with zero gallery walls.</p>
+        <p class="story-body">We believe the relationship between artist and collector should be direct, transparent, and long-lasting. We do not chase trends. We do not rush artists. We invest in the long arc of a practice.</p>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <p class="story-pull">"Art does not need a room. It needs the right light, and the right person standing in it."<br><em style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;font-style:normal;color:var(--text3)">— Priyanka Singh, Founder</em></p>
+        <p class="story-body">Our curatorial approach is deliberate and slow. We rarely add new artists to the programme — when we do, it is because we have spent months, sometimes years, following a practice and waiting for the right moment to introduce it to our collectors.</p>
+        <p class="story-body">We are not a marketplace. We are a gallery — one that happens to exist everywhere at once.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-section">
+    <div class="stat-cell reveal">
+      <div class="stat-num">48</div>
+      <div class="stat-lbl">Artists represented</div>
+      <div class="stat-body">Across painting, photography, and mixed media</div>
+    </div>
+    <div class="stat-cell reveal reveal-delay-1">
+      <div class="stat-num">320+</div>
+      <div class="stat-lbl">Works collected</div>
+      <div class="stat-body">In private and institutional collections</div>
+    </div>
+    <div class="stat-cell reveal reveal-delay-2">
+      <div class="stat-num">12</div>
+      <div class="stat-lbl">Countries reached</div>
+      <div class="stat-body">From India to Switzerland, Japan, and beyond</div>
+    </div>
+    <div class="stat-cell reveal reveal-delay-3">
+      <div class="stat-num">100%</div>
+      <div class="stat-lbl">Online</div>
+      <div class="stat-body">No physical gallery space — by design</div>
+    </div>
+  </div>
+
+  <!-- VALUES -->
+  <section class="values-section">
+    <p class="values-eyebrow reveal">What we stand for</p>
+    <div class="values-grid">
+      <div class="value-item reveal">
+        <div class="value-num">01</div>
+        <div class="value-title">Artist-first, always</div>
+        <div class="value-body">Our artists set their prices. We support their practice on their timeline, not ours. Long-term relationships over short-term sales — this is the Krira principle.</div>
+      </div>
+      <div class="value-item reveal reveal-delay-1">
+        <div class="value-num">02</div>
+        <div class="value-title">Radical transparency</div>
+        <div class="value-body">Every collector knows exactly where a work came from, who made it, and what a fair price looks like. We publish our commission structure openly.</div>
+      </div>
+      <div class="value-item reveal reveal-delay-2">
+        <div class="value-num">03</div>
+        <div class="value-title">Curation without compromise</div>
+        <div class="value-body">We add one or two artists per year. Every work in the collection is something we would buy ourselves. Taste is a responsibility we take seriously.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="team-section">
+    <p class="team-eyebrow reveal">The team</p>
+    <div class="team-grid">
+      <div class="team-member reveal">
+        <div class="team-portrait">
+          <svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="300" height="375" fill="#EDE5D8"/>
+            <ellipse cx="150" cy="130" rx="70" ry="85" fill="#C4A882" opacity="0.5"/>
+            <ellipse cx="150" cy="280" rx="120" ry="60" fill="#D4B89A" opacity="0.4"/>
+            <circle cx="150" cy="135" r="40" fill="#C9B090" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Priyanka Singh</div>
+          <div class="team-role">Founder &amp; Director</div>
+          <div class="team-bio">A former art educator and collector. Fifteen years in the field. Priyanka founded Krira to build what she couldn't find.</div>
+        </div>
+      </div>
+      <div class="team-member reveal reveal-delay-1">
+        <div class="team-portrait">
+          <svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="300" height="375" fill="#1B1B2F"/>
+            <ellipse cx="150" cy="130" rx="70" ry="85" fill="#7B2D8B" opacity="0.2"/>
+            <ellipse cx="150" cy="280" rx="120" ry="60" fill="#A855F7" opacity="0.15"/>
+            <circle cx="150" cy="135" r="40" fill="#C084FC" opacity="0.12"/>
+          </svg>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Rohan Mehta</div>
+          <div class="team-role">Curatorial Director</div>
+          <div class="team-bio">MFA from Central Saint Martins. Rohan has curated programmes at NGMA Mumbai and the Kochi-Muziris Biennale.</div>
+        </div>
+      </div>
+      <div class="team-member reveal reveal-delay-2">
+        <div class="team-portrait">
+          <svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="300" height="375" fill="#F0F4F8"/>
+            <ellipse cx="150" cy="130" rx="70" ry="85" fill="#9EAFC2" opacity="0.4"/>
+            <ellipse cx="150" cy="280" rx="120" ry="60" fill="#4A6FA5" opacity="0.2"/>
+            <circle cx="150" cy="135" r="40" fill="#4A6FA5" opacity="0.15"/>
+          </svg>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Asha Ranganathan</div>
+          <div class="team-role">Artist Relations</div>
+          <div class="team-bio">A painter herself, Asha bridges the gallery's vision with the lived realities of artistic practice. She speaks ten languages.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section">
+    <div class="contact-left reveal">
+      <h2 class="contact-heading">Let's start a<br><em>conversation</em></h2>
+      <p class="contact-body">Whether you're a collector looking for a specific kind of work, an artist wondering if Krira is the right home for your practice, or a press enquiry — we read everything and respond personally.</p>
+      <div class="contact-links">
+        <a href="mailto:hello@krira.art" class="contact-link">
+          <span class="contact-link-label">Email</span>
+          hello@krira.art
+        </a>
+        <a href="mailto:priyankasinghworld@gmail.com" class="contact-link">
+          <span class="contact-link-label">Founder</span>
+          priyankasinghworld@gmail.com
+        </a>
+        <a href="https://instagram.com" class="contact-link" target="_blank">
+          <span class="contact-link-label">Instagram</span>
+          @kriragallery
+        </a>
+        <div class="contact-link">
+          <span class="contact-link-label">Location</span>
+          Bengaluru, India
+        </div>
+      </div>
+    </div>
+    <div class="contact-right reveal reveal-delay-1">
+      <h3 class="contact-form-title">Send a message</h3>
+      <form onsubmit="handleForm(event)">
+        <div class="form-group">
+          <label class="form-label">Your name</label>
+          <input class="form-input" type="text" placeholder="Full name" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" placeholder="your@email.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subject</label>
+          <input class="form-input" type="text" placeholder="Collection inquiry, artist submission, other..." />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" placeholder="Tell us what's on your mind..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary" id="formBtn">Send message</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Krira</div>
+    <ul class="footer-links">
+      <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+      <li><a href="mailto:hello@krira.art">Contact</a></li>
+      <li><a href="#">Press</a></li>
+      <li><a href="#">Shipping</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Krira Gallery</div>
+  </footer>
+
+  <script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); observer.unobserve(e.target); }});
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  function handleForm(e) {
+    e.preventDefault();
+    const btn = document.getElementById('formBtn');
+    btn.textContent = 'Message sent — thank you';
+    btn.disabled = true;
+    btn.style.opacity = '0.6';
+  }
+  </script>
+</body>
+</html>

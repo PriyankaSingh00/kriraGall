@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solitude IV — Arya Menon — Krira Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #faf9f7; --bg2: #f2ede8; --text: #1a1714; --text2: #6b6560; --text3: #9e9892; --border: rgba(26,23,20,0.12); --border2: rgba(26,23,20,0.22); }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; font-weight: 300; color: var(--text); background: var(--bg); overflow-x: hidden; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 2.5rem; border-bottom: 0.5px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 100; }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; letter-spacing: 0.1em; color: var(--text); text-decoration: none; }
+    .nav-logo span { font-style: italic; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links li a { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text2); text-decoration: none; transition: color 0.2s; }
+    .nav-links li a:hover { color: var(--text); }
+    .nav-inquire { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text2); text-decoration: none; border-bottom: 0.5px solid var(--border2); padding-bottom: 1px; }
+
+    /* BREADCRUMB */
+    .breadcrumb { padding: 1rem 2.5rem; border-bottom: 0.5px solid var(--border); font-size: 11px; color: var(--text3); letter-spacing: 0.08em; }
+    .breadcrumb a { color: var(--text3); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--text2); }
+    .breadcrumb span { margin: 0 0.5rem; }
+
+    /* MAIN ARTWORK */
+    .artwork-layout { display: grid; grid-template-columns: 1fr 400px; min-height: calc(100vh - 120px); }
+    .artwork-viewer { background: #1a1510; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: zoom-in; }
+    .artwork-viewer svg { max-height: 90vh; max-width: 100%; display: block; transition: transform 0.4s ease; }
+    .artwork-viewer.zoomed { cursor: zoom-out; }
+    .artwork-viewer.zoomed svg { transform: scale(1.6); }
+    .zoom-hint { position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); pointer-events: none; transition: opacity 0.3s; }
+    .artwork-viewer.zoomed .zoom-hint { opacity: 0; }
+    .badge { position: absolute; top: 1.5rem; left: 1.5rem; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #fff; background: rgba(0,0,0,0.5); padding: 6px 12px; }
+
+    /* DETAILS PANEL */
+    .details-panel { border-left: 0.5px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; max-height: calc(100vh - 73px); position: sticky; top: 73px; }
+    .details-top { padding: 2.5rem 2rem; flex: 1; }
+    .details-eyebrow { font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--text3); margin-bottom: 1.25rem; }
+    .details-title { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; font-style: italic; line-height: 1.1; margin-bottom: 0.5rem; }
+    .details-artist-link { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text2); text-decoration: none; border-bottom: 0.5px solid var(--border); padding-bottom: 1px; display: inline-block; transition: color 0.2s; }
+    .details-artist-link:hover { color: var(--text); }
+    .divider { border: none; border-top: 0.5px solid var(--border); margin: 1.5rem 0; }
+    .meta-table { width: 100%; }
+    .meta-row { display: flex; justify-content: space-between; padding: 0.55rem 0; border-bottom: 0.5px solid var(--border); font-size: 12px; }
+    .meta-row:last-child { border-bottom: none; }
+    .meta-key { color: var(--text3); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
+    .meta-val { color: var(--text2); }
+    .price-block { margin-top: 1.5rem; }
+    .price-label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text3); margin-bottom: 0.4rem; }
+    .price-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; }
+    .price-note { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+    /* ARTIST BIO */
+    .artist-snippet { padding: 2rem; border-top: 0.5px solid var(--border); background: var(--bg2); }
+    .artist-snip-eyebrow { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text3); margin-bottom: 0.75rem; }
+    .artist-snip-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; margin-bottom: 0.75rem; }
+    .artist-snip-bio { font-size: 12px; color: var(--text2); line-height: 1.75; margin-bottom: 1rem; }
+    .artist-snip-link { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text2); text-decoration: none; border-bottom: 0.5px solid var(--border2); padding-bottom: 1px; transition: color 0.2s; }
+    .artist-snip-link:hover { color: var(--text); }
+
+    /* ACTIONS */
+    .details-actions { padding: 2rem; border-top: 0.5px solid var(--border); display: flex; flex-direction: column; gap: 0.75rem; }
+    .btn-primary { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; padding: 14px 28px; background: var(--text); color: var(--bg); border: none; cursor: pointer; text-decoration: none; display: block; transition: opacity 0.2s; text-align: center; }
+    .btn-primary:hover { opacity: 0.75; }
+    .btn-ghost { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; padding: 12px; background: none; color: var(--text2); border: none; cursor: pointer; text-decoration: none; border-bottom: 0.5px solid var(--border2); display: block; transition: color 0.2s; text-align: center; }
+    .btn-ghost:hover { color: var(--text); }
+
+    /* RELATED WORKS */
+    .related-section { border-top: 0.5px solid var(--border); padding: 2rem 2.5rem; }
+    .related-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.5rem; }
+    .related-label { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text2); }
+    .related-link { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text2); text-decoration: none; border-bottom: 0.5px solid var(--border); padding-bottom: 1px; }
+    .carousel { display: flex; gap: 1px; overflow-x: auto; scrollbar-width: none; }
+    .carousel::-webkit-scrollbar { display: none; }
+    .carousel-item { flex: 0 0 220px; cursor: pointer; border: 0.5px solid var(--border); }
+    .carousel-item-img { width: 220px; height: 275px; overflow: hidden; }
+    .carousel-item-img svg { width: 100%; height: 100%; display: block; transition: transform 0.5s ease; }
+    .carousel-item:hover .carousel-item-img svg { transform: scale(1.04); }
+    .carousel-item-info { padding: 0.75rem 1rem; border-top: 0.5px solid var(--border); }
+    .carousel-item-title { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-style: italic; }
+    .carousel-item-artist { font-size: 10px; color: var(--text2); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+
+    /* REVEAL ANIMATION */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    footer { padding: 2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; border-top: 0.5px solid var(--border); }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 300; }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links li a { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text2); text-decoration: none; }
+    .footer-copy { font-size: 11px; color: var(--text3); }
+
+    @media (max-width: 900px) {
+      .artwork-layout { grid-template-columns: 1fr; }
+      .details-panel { position: static; max-height: none; border-left: none; border-top: 0.5px solid var(--border); }
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .carousel-item { flex: 0 0 160px; }
+      .carousel-item-img { width: 160px; height: 200px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">Krir<span>a</span></a>
+    <ul class="nav-links">
+      <li><a href="collection.html">Collection</a></li>
+      <li><a href="artists.html">Artists</a></li>
+      <li><a href="#">Exhibitions</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <a href="mailto:hello@krira.art" class="nav-inquire">Inquire</a>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="collection.html">Collection</a><span>›</span>
+    Solitude IV
+  </div>
+
+  <div class="artwork-layout">
+    <div class="artwork-viewer" id="artViewer">
+      <svg viewBox="0 0 680 820" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <rect width="680" height="820" fill="#1a1510"/>
+        <ellipse cx="200" cy="260" rx="280" ry="200" fill="#8B5E3C" opacity="0.25"/>
+        <ellipse cx="500" cy="600" rx="220" ry="300" fill="#4A3728" opacity="0.3"/>
+        <rect x="80" y="140" width="520" height="540" rx="2" fill="none" stroke="#C4986A" stroke-width="0.5" opacity="0.4"/>
+        <ellipse cx="340" cy="410" rx="160" ry="180" fill="#C4986A" opacity="0.08"/>
+        <circle cx="340" cy="390" r="90" fill="none" stroke="#C4986A" stroke-width="0.5" opacity="0.5"/>
+        <line x1="340" y1="140" x2="340" y2="680" stroke="#C4986A" stroke-width="0.3" opacity="0.2"/>
+        <line x1="80" y1="410" x2="600" y2="410" stroke="#C4986A" stroke-width="0.3" opacity="0.2"/>
+        <ellipse cx="200" cy="350" rx="60" ry="80" fill="#D4A574" opacity="0.15"/>
+        <ellipse cx="480" cy="460" rx="80" ry="60" fill="#8B5E3C" opacity="0.2"/>
+        <text x="340" y="380" font-family="Georgia,serif" font-size="13" fill="#C4986A" opacity="0.7" text-anchor="middle" letter-spacing="6" font-style="italic">Solitude IV</text>
+        <text x="340" y="402" font-family="Arial,sans-serif" font-size="9" fill="#C4986A" opacity="0.4" text-anchor="middle" letter-spacing="3">oil on canvas · 2024</text>
+      </svg>
+      <div class="badge">Featured work</div>
+      <div class="zoom-hint">Click to zoom</div>
+    </div>
+
+    <div class="details-panel">
+      <div class="details-top">
+        <p class="details-eyebrow">Current collection · Krira Gallery</p>
+        <h1 class="details-title">Solitude IV</h1>
+        <a href="artists.html#arya-menon" class="details-artist-link">Arya Menon</a>
+        <hr class="divider"/>
+        <div class="meta-table">
+          <div class="meta-row"><span class="meta-key">Year</span><span class="meta-val">2024</span></div>
+          <div class="meta-row"><span class="meta-key">Medium</span><span class="meta-val">Oil on canvas</span></div>
+          <div class="meta-row"><span class="meta-key">Dimensions</span><span class="meta-val">150 × 200 cm</span></div>
+          <div class="meta-row"><span class="meta-key">Style</span><span class="meta-val">Abstract</span></div>
+          <div class="meta-row"><span class="meta-key">Edition</span><span class="meta-val">Unique work</span></div>
+          <div class="meta-row"><span class="meta-key">Condition</span><span class="meta-val">Excellent</span></div>
+          <div class="meta-row"><span class="meta-key">Provenance</span><span class="meta-val">Artist's studio, 2024</span></div>
+          <div class="meta-row"><span class="meta-key">Shipping</span><span class="meta-val">Worldwide available</span></div>
+        </div>
+        <div class="price-block">
+          <div class="price-label">Price</div>
+          <div class="price-num">₹ 3,80,000</div>
+          <div class="price-note">Certificate of authenticity included</div>
+        </div>
+      </div>
+
+      <div class="artist-snippet">
+        <p class="artist-snip-eyebrow">About the artist</p>
+        <h3 class="artist-snip-name">Arya Menon</h3>
+        <p class="artist-snip-bio">Arya Menon works primarily in oil, exploring the emotional topography of silence and solitude. Her large-scale canvases draw from the visual language of the Nilgiri landscape — layered, amber-toned, meditative.</p>
+        <a href="artists.html#arya-menon" class="artist-snip-link">View artist profile →</a>
+      </div>
+
+      <div class="details-actions">
+        <a href="mailto:hello@krira.art?subject=Inquiry — Solitude IV by Arya Menon" class="btn-primary">Inquire about this work</a>
+        <a href="collection.html" class="btn-ghost">Back to collection</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATED WORKS -->
+  <section class="related-section reveal">
+    <div class="related-header">
+      <span class="related-label">Related works</span>
+      <a href="collection.html" class="related-link">View all →</a>
+    </div>
+    <div class="carousel" id="carousel"></div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Krira</div>
+    <ul class="footer-links">
+      <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+      <li><a href="mailto:hello@krira.art">Contact</a></li>
+      <li><a href="#">Shipping</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Krira Gallery</div>
+  </footer>
+
+  <script>
+  // Zoom
+  const viewer = document.getElementById('artViewer');
+  viewer.addEventListener('click', () => viewer.classList.toggle('zoomed'));
+
+  // Related carousel
+  const related = [
+    {title:"Monsoon Light", artist:"Arya Menon", svg:`<svg viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="420" fill="#2a3240"/><rect x="0" y="0" width="300" height="250" fill="#3a4a5e" opacity="0.8"/><rect x="0" y="250" width="300" height="170" fill="#1a2230"/><ellipse cx="60" cy="100" rx="80" ry="60" fill="#8899aa" opacity="0.2"/><line x1="0" y1="252" x2="300" y2="248" stroke="#c4985a" stroke-width="1" opacity="0.3"/></svg>`},
+    {title:"The Last Flame", artist:"Arjun Pillai", svg:`<svg viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="380" fill="#2D1B00"/><rect x="0" y="220" width="300" height="160" fill="#4A2E0A" opacity="0.8"/><ellipse cx="150" cy="210" rx="130" ry="50" fill="#FF8C00" opacity="0.35"/><circle cx="150" cy="195" r="25" fill="#FFD700" opacity="0.8"/></svg>`},
+    {title:"Threshold", artist:"Arjun Pillai", svg:`<svg viewBox="0 0 300 410" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="410" fill="#0d0a08"/><rect x="80" y="0" width="140" height="410" fill="#1a1410" opacity="0.8"/><ellipse cx="150" cy="200" rx="20" ry="120" fill="#c4984a" opacity="0.15"/></svg>`},
+    {title:"Orbital Memory", artist:"Kavya Nair", svg:`<svg viewBox="0 0 300 375" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="rg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#16213E"/><stop offset="100%" stop-color="#0F3460"/></linearGradient></defs><rect width="300" height="375" fill="url(#rg1)"/><circle cx="150" cy="180" r="90" fill="#E94560" opacity="0.8"/><circle cx="150" cy="180" r="60" fill="#0F3460" opacity="0.6"/><circle cx="150" cy="180" r="32" fill="#E94560" opacity="0.9"/></svg>`},
+    {title:"Concentric Void", artist:"Meera Iyer", svg:`<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="#1B1B2F"/><ellipse cx="150" cy="150" rx="140" ry="130" fill="none" stroke="#7B2D8B" stroke-width="1" opacity="0.6"/><ellipse cx="150" cy="150" rx="60" ry="54" fill="none" stroke="#C084FC" stroke-width="0.6" opacity="0.7"/><circle cx="150" cy="150" r="10" fill="#C084FC" opacity="0.9"/></svg>`},
+  ];
+  const c = document.getElementById('carousel');
+  related.forEach(r => {
+    const el = document.createElement('div');
+    el.className = 'carousel-item';
+    el.innerHTML = `<div class="carousel-item-img">${r.svg}</div><div class="carousel-item-info"><div class="carousel-item-title">${r.title}</div><div class="carousel-item-artist">${r.artist}</div></div>`;
+    c.appendChild(el);
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
