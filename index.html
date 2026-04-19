@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Krira Gallery — Where Art Finds Its Audience</title>
+  <meta name="description" content="Krira Gallery presents works by Priyanka Singh — curated for collectors, enthusiasts, and those who believe art belongs everywhere." />
+  <meta property="og:title" content="Krira Gallery" />
+  <meta property="og:description" content="An online gallery curating extraordinary art without walls." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #faf9f7;
+      --bg2: #f2ede8;
+      --text: #1a1714;
+      --text2: #6b6560;
+      --text3: #9e9892;
+      --border: rgba(26,23,20,0.12);
+      --border2: rgba(26,23,20,0.22);
+      --accent: #7a5c3a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 2.5rem;
+      border-bottom: 0.5px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { font-style: italic; }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links li a {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text2);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links li a:hover { color: var(--text); }
+
+    .nav-inquire {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text2);
+      text-decoration: none;
+      border-bottom: 0.5px solid var(--border2);
+      padding-bottom: 1px;
+      transition: color 0.2s;
+    }
+    .nav-inquire:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 88vh;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .hero-image {
+      background: #1a1510;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      min-height: 520px;
+    }
+    .hero-badge {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #fff;
+      background: rgba(0,0,0,0.5);
+      padding: 6px 12px;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem 3.5rem;
+      border-left: 0.5px solid var(--border);
+    }
+
+    .hero-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 52px;
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em { font-style: italic; }
+
+    .hero-meta {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+      max-width: 320px;
+      border-left: 1px solid var(--border2);
+      padding-left: 1rem;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; align-items: center; }
+
+    .btn-primary {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.75; }
+
+    .btn-ghost {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 12px 0;
+      background: none;
+      color: var(--text2);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      border-bottom: 0.5px solid var(--border2);
+      display: inline-block;
+      transition: color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--text); }
+
+    /* ── TICKER ── */
+    .ticker {
+      padding: 10px 2.5rem;
+      border-bottom: 0.5px solid var(--border);
+      display: flex;
+      gap: 3rem;
+      overflow: hidden;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text2);
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 2rem 2.5rem 1.5rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text2);
+    }
+
+    /* ── GALLERY GRID ── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .art-cell {
+      border-right: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .art-cell:hover { transform: translateY(-2px); }
+
+    /* 3 columns: every 3rd has no right border */
+    .art-cell:nth-child(3n) { border-right: none; }
+
+    /* last row has no bottom border — works for 9 cells (3 rows) */
+    .art-cell:nth-child(n+7) { border-bottom: none; }
+
+    .art-image-wrap {
+      width: 100%;
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      position: relative;
+    }
+    .art-image-wrap img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .art-cell:hover .art-image-wrap img { transform: scale(1.03); }
+
+    .art-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0);
+      transition: background 0.3s;
+      pointer-events: none;
+    }
+    .art-cell:hover .art-overlay { background: rgba(0,0,0,0.06); }
+
+    .art-info {
+      padding: 1rem 1.25rem 1.25rem;
+      border-top: 0.5px solid var(--border);
+    }
+    .art-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      font-style: italic;
+      margin-bottom: 4px;
+    }
+    .art-artist {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--text2);
+      margin-bottom: 3px;
+    }
+    .art-medium {
+      font-size: 11px;
+      color: var(--text3);
+    }
+
+    /* ── ABOUT THE ARTIST ── */
+    .about-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .about-text {
+      padding: 3.5rem 2.5rem;
+      border-right: 0.5px solid var(--border);
+    }
+
+    .about-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .about-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+    .about-heading em { font-style: italic; }
+
+    .about-body {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.8;
+      max-width: 400px;
+      margin-bottom: 1.25rem;
+    }
+
+    .about-pull {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 19px;
+      font-style: italic;
+      color: var(--text2);
+      line-height: 1.55;
+      border-left: 1px solid var(--border2);
+      padding-left: 1rem;
+      margin: 1.75rem 0;
+    }
+
+    .about-stat-row {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 0.5px solid var(--border);
+    }
+    .stat-block { display: flex; flex-direction: column; gap: 4px; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 300;
+    }
+    .stat-lbl {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text2);
+    }
+
+    .about-image {
+      background: var(--bg2);
+      overflow: hidden;
+    }
+    .about-image img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* ── NEWSLETTER ── */
+    .newsletter {
+      padding: 3rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .newsletter-text { max-width: 400px; }
+    .newsletter-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 300;
+      margin-bottom: 8px;
+    }
+    .newsletter-sub { font-size: 13px; color: var(--text2); }
+
+    .newsletter-form {
+      display: flex;
+      border-bottom: 1px solid var(--border2);
+      min-width: 300px;
+    }
+    .newsletter-input {
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      padding: 10px 0;
+      border: none;
+      background: none;
+      flex: 1;
+      color: var(--text);
+      outline: none;
+      letter-spacing: 0.05em;
+    }
+    .newsletter-input::placeholder { color: var(--text3); }
+    .newsletter-btn {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 10px 16px;
+      background: none;
+      border: none;
+      color: var(--text2);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .newsletter-btn:hover { color: var(--text); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+    }
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .footer-links li a {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text2);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links li a:hover { color: var(--text); }
+    .footer-copy { font-size: 11px; color: var(--text3); }
+
+    /* ── MODAL ── */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.72);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.active { display: flex; }
+
+    .modal-content {
+      background: var(--bg);
+      width: 90%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem; right: 1.25rem;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--text2);
+      z-index: 1001;
+      line-height: 1;
+    }
+    .modal-close:hover { color: var(--text); }
+
+    .modal-image {
+      width: 100%;
+      max-height: 480px;
+      object-fit: cover;
+      display: block;
+    }
+    .modal-info { padding: 2rem 2rem 2.5rem; }
+    .modal-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 0.75rem;
+    }
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-style: italic;
+      font-weight: 300;
+      margin-bottom: 0.4rem;
+      line-height: 1.15;
+    }
+    .modal-artist {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 1.25rem;
+    }
+    .modal-divider {
+      border: none;
+      border-top: 0.5px solid var(--border);
+      margin: 1.25rem 0;
+    }
+    .modal-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1.75rem;
+    }
+    .modal-meta-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text2);
+    }
+    .modal-meta-row span:first-child {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text3);
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-content { padding: 2.5rem 1.5rem; border-left: none; border-top: 0.5px solid var(--border); }
+      .hero-title { font-size: 36px; }
+      .hero-image { min-height: 320px; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .art-cell:nth-child(3n) { border-right: 0.5px solid var(--border); }
+      .art-cell:nth-child(2n) { border-right: none; }
+      .art-cell:nth-child(n+7) { border-bottom: 0.5px solid var(--border); }
+      .art-cell:nth-child(n+9) { border-bottom: none; }
+      .about-strip { grid-template-columns: 1fr; }
+      .about-image { min-height: 360px; }
+      .about-text { border-right: none; border-bottom: 0.5px solid var(--border); }
+      .newsletter { flex-direction: column; align-items: flex-start; }
+      .newsletter-form { min-width: 100%; width: 100%; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+      .ticker { gap: 1.5rem; font-size: 10px; }
+    }
+    @media (max-width: 480px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .art-cell:nth-child(n) { border-right: none; border-bottom: 0.5px solid var(--border); }
+      .art-cell:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Krir<span>a</span></a>
+    <ul class="nav-links">
+      <li><a href="#collection" onclick="goTo(event,'collection')">Collection</a></li>
+      <li><a href="#about" onclick="goTo(event,'about')">About the Artist</a></li>
+    </ul>
+    <a href="mailto:priyankasinghworld@gmail.com" class="nav-inquire">Inquire</a>
+  </nav>
+
+  <!-- HERO — image1.jpg always -->
+  <section class="hero">
+    <div class="hero-image">
+      <img src="arts/image1.jpg" alt="Featured work" />
+      <div class="hero-badge">Featured work</div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Priyanka Singh — 2025</p>
+      <h1 class="hero-title">Where <em>art</em><br>finds its<br>audience</h1>
+      <p class="hero-meta">Krira Gallery presents original works by Priyanka Singh — curated for collectors, enthusiasts, and those who believe art belongs everywhere.</p>
+      <div class="hero-actions">
+        <a href="#collection" class="btn-primary" onclick="goTo(event,'collection')">View collection</a>
+        <a href="#about" class="btn-ghost" onclick="goTo(event,'about')">About the artist</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <span>New works — 2025</span>
+    <span>·</span>
+    <span>Oil &amp; Mixed Media</span>
+    <span>·</span>
+    <span>Worldwide shipping available</span>
+    <span>·</span>
+    <span>Inquiries welcome</span>
+  </div>
+
+  <!-- COLLECTION SECTION -->
+  <div class="section-header" id="collection">
+    <span class="section-label">Current collection</span>
+  </div>
+
+  <div class="gallery-grid">
+
+    <!-- image2 → image10, nine works, 3×3 grid -->
+    <a href="#" class="art-cell" onclick="openModal(event,2,'Orbital Memory','Oil on canvas','90 × 120 cm','2024')">
+      <div class="art-image-wrap">
+        <img src="arts/image2.jpg" alt="Orbital Memory" />
+        <div class="art-overlay"></div>
+      </div>
+      <div class="art-info">
+        <div class="art-title">Orbital Memory</div>
+        <div class="art-artist">Priyanka Singh</div>
+        <div class="art-medium">Oil on canvas · 2024</div>
+      </div>
+    </a>
+
+    <a href="#" class="art-cell" onclick="openModal(event,3,'Earth &amp; Shadow','Oil on canvas','60 × 90 cm','2023')">
+      <div class="art-image-wrap">
+        <img src="arts/image3.jpg" alt="Earth & Shadow" />
+        <div class="art-overlay"></div>
+      </div>
+      <div class="art-info">
+        <div class="art-title">Earth &amp; Shadow</div>
+        <div class="art-artist">Priyanka Singh</div>
+        <div class="art-medium">Oil on canvas · 2023</div>
+      </div>
+    </a>
+
+    <a href="#" class="art-cell" onclick="openModal(event,4,'Concentric Void','Mixed media','100 × 100 cm','2024')">
+      <div class="art-image-wrap">
+        <img src="arts/image4.jpg" alt="Concentric Void" />
+        <div class="art-overlay"></div>
+      </div>
+      <div class="art-info">
+        <div class="art-title">Concentric Void</div>
+        <div class="art-artist">Priyanka Singh</div>
+        <div class="art-medium">Mixed media · 2024</div>
+      </div>
+    </a>
+
+    <a href="#" class="art-cell" onclick="openModal(event,5,'Still Waters','Watercolour','50 × 70 cm','2023')">
+      <div class="art-image-wrap">
+        <img src="arts/image5.jpg" alt="Still Waters" />
+        <div class="art-overlay"></div>
+      </div>
+      <div class="art-info">
+        <div class="art-title">Still Waters</div>
+        <div class="art-artist">Priyanka Singh</div>
+        <div class="art-medium">Watercolour · 2023</div>
+      </div>
+    </a>
+
+    <a href="#" class="art-cell" onclick="openModal(event,6,'The Last Flame','Oil on canvas','120 × 180 cm','2024')">
+      <div class="art-image-wrap">
+        <img src="arts/image6.jpg" alt="The Last Flame" />
+        <div class="art-overlay"></div>
+      </div>
+      <div class="art-info">
+        <div class="art-title">The Last Flame</div>
+        <div class="art-artist">Priyanka Singh</div>
+        <div class="art-medium">Oil on canvas · 2024</div>
+      </div>
+    </a>
+
+    <a href="#" class="art-cell" onclick="openModal(event,7,'Geometric Reverie','Mixed media','80 × 80 cm','2023')">
+      <div class="art-image-wrap">
+        <img src="arts/image7.jpg" alt="Geometric Reverie" />
+        <div class="art-overlay"></div>
+      </div>
+      <div class="art-info">
+        <div class="art-title">Geometric Reverie</div>
+        <div class="art-artist">Priyanka Singh</div>
+        <div class="art-medium">Mixed media · 2023</div>
+      </div>
+    </a>
+
+    <a href="#" class="art-cell" onclick="openModal(event,8,'Solitude IV','Oil on canvas','150 × 200 cm','2024')">
+      <div class="art-image-wrap">
+        <img src="arts/image8.jpg" alt="Solitude IV" />
+        <div class="art-overlay"></div>
+      </div>
+      <div class="art-info">
+        <div class="art-title">Solitude IV</div>
+        <div class="art-artist">Priyanka Singh</div>
+        <div class="art-medium">Oil on canvas · 2024</div>
+      </div>
+    </a>
+
+    <a href="#" class="art-cell" onclick="openModal(event,9,'Rain Study No. 3','Watercolour','40 × 60 cm','2023')">
+      <div class="art-image-wrap">
+        <img src="arts/image9.jpg" alt="Rain Study No. 3" />
+        <div class="art-overlay"></div>
+      </div>
+      <div class="art-info">
+        <div class="art-title">Rain Study No. 3</div>
+        <div class="art-artist">Priyanka Singh</div>
+        <div class="art-medium">Watercolour · 2023</div>
+      </div>
+    </a>
+
+    <a href="#" class="art-cell" onclick="openModal(event,10,'Threshold','Oil on canvas','130 × 180 cm','2024')">
+      <div class="art-image-wrap">
+        <img src="arts/image10.jpg" alt="Threshold" />
+        <div class="art-overlay"></div>
+      </div>
+      <div class="art-info">
+        <div class="art-title">Threshold</div>
+        <div class="art-artist">Priyanka Singh</div>
+        <div class="art-medium">Oil on canvas · 2024</div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- ABOUT THE ARTIST -->
+  <section class="about-strip" id="about">
+    <div class="about-text">
+      <span class="about-eyebrow">About the artist</span>
+      <h2 class="about-heading">Priyanka<br><em>Singh</em></h2>
+
+      <p class="about-body">Priyanka Singh is a painter and the founder of Krira Gallery — a space built on the belief that extraordinary art should reach anyone, anywhere, without walls.</p>
+
+      <p class="about-pull">"I paint to make sense of the world — its silences as much as its noise."</p>
+
+      <p class="about-body">Working primarily in oil and mixed media, Priyanka's practice explores the tension between structure and emotion — geometric forms that dissolve at the edges, landscapes that carry memory rather than describe place. Her work draws from the terrain of South India, from colour as a felt experience, and from the quiet discipline of making something by hand.</p>
+
+      <p class="about-body">Before devoting herself fully to her practice, she spent years as an art educator and collector — developing an eye for work that resists easy categorisation. Krira Gallery was founded to give her own work, and the artists she admires, a home outside the traditional system.</p>
+
+      <a href="mailto:priyankasinghworld@gmail.com" class="btn-ghost">Get in touch →</a>
+
+      <div class="about-stat-row">
+        <div class="stat-block">
+          <span class="stat-num">10+</span>
+          <span class="stat-lbl">Years of practice</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-num">40+</span>
+          <span class="stat-lbl">Works created</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-num">12</span>
+          <span class="stat-lbl">Countries reached</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-image">
+      <img src="arts/image1.jpg" alt="Priyanka Singh — Krira Gallery" />
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <div class="newsletter-text">
+      <h3 class="newsletter-heading">Stay close to the art</h3>
+      <p class="newsletter-sub">New works, studio notes, and exhibition openings — delivered thoughtfully.</p>
+    </div>
+    <form class="newsletter-form" onsubmit="handleSubscribe(event)">
+      <input class="newsletter-input" type="email" placeholder="Your email address" required />
+      <button type="submit" class="newsletter-btn">Subscribe</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Krira</div>
+    <ul class="footer-links">
+      <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+      <li><a href="mailto:priyankasinghworld@gmail.com">Contact</a></li>
+      <li><a href="#collection" onclick="goTo(event,'collection')">Gallery</a></li>
+      <li><a href="#">Shipping</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Krira Gallery</div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal" id="artModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <img src="" alt="" class="modal-image" id="modalImage" />
+      <div class="modal-info">
+        <p class="modal-eyebrow">Krira Gallery — Current Collection</p>
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <p class="modal-artist">Priyanka Singh</p>
+        <div class="modal-divider"></div>
+        <div class="modal-meta" id="modalMeta"></div>
+        <a href="mailto:priyankasinghworld@gmail.com" class="btn-primary" id="modalInquire">Inquire about this work</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function goTo(e, id) {
+      e.preventDefault();
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function handleSubscribe(e) {
+      e.preventDefault();
+      const input = e.target.querySelector('input');
+      const btn = e.target.querySelector('button');
+      btn.textContent = 'Thank you';
+      input.value = '';
+      setTimeout(() => { btn.textContent = 'Subscribe'; }, 3000);
+    }
+
+    function openModal(e, imgNum, title, medium, size, year) {
+      e.preventDefault();
+      document.getElementById('modalImage').src = 'arts/image' + imgNum + '.jpg';
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalMeta').innerHTML =
+        '<div class="modal-meta-row"><span>Medium</span><span>' + medium + '</span></div>' +
+        '<div class="modal-meta-row"><span>Dimensions</span><span>' + size + '</span></div>' +
+        '<div class="modal-meta-row"><span>Year</span><span>' + year + '</span></div>' +
+        '<div class="modal-meta-row"><span>Availability</span><span>Inquire</span></div>';
+      document.getElementById('modalInquire').href =
+        'mailto:priyankasinghworld@gmail.com?subject=Inquiry — ' + title + ' by Priyanka Singh';
+      document.getElementById('artModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('artModal').classList.remove('active');
+    }
+
+    document.addEventListener('click', function(e) {
+      if (e.target === document.getElementById('artModal')) closeModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+
+</body>
+</html>
