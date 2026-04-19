@@ -3,768 +3,273 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Krira Gallery — Where layers shapes depth and elegance</title>
-  <meta name="description" content="Krira Gallery presents works by Priyanka Singh — curated for collectors, enthusiasts, and those who believe art belongs everywhere." />
+  <title>Krira Gallery — Original Works by Priyanka Singh</title>
+  <meta name="description" content="Krira Gallery presents original works by Priyanka Singh — curated for collectors, enthusiasts, and those who believe art belongs everywhere." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #faf9f7;
-      --bg2: #f2ede8;
-      --text: #1a1714;
-      --text2: #6b6560;
-      --text3: #9e9892;
-      --border: rgba(26,23,20,0.12);
-      --border2: rgba(26,23,20,0.22);
-      --accent: #b8965a;
-      --gold: #c9a96e;
+      --bg: #faf9f7; --bg2: #f2ede8;
+      --dark: #0f0e0c; --dark2: #1a1714; --dark3: #252118;
+      --text: #1a1714; --text2: #6b6560; --text3: #9e9892;
+      --border: rgba(26,23,20,0.11); --border2: rgba(26,23,20,0.22);
+      --gold: #c9a96e; --gold2: #e8d5a8;
     }
-
     html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      color: var(--text);
-      background: var(--bg);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+    body { font-family: 'Jost', sans-serif; font-weight: 300; color: var(--text); background: var(--bg); overflow-x: hidden; }
 
     /* ── NAV ── */
     nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.4rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 2.5rem; height: 64px;
       border-bottom: 0.5px solid var(--border);
-      position: sticky;
-      top: 0;
-      background: var(--bg);
-      z-index: 100;
+      position: sticky; top: 0; background: var(--bg); z-index: 200;
     }
-
     .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      font-weight: 300;
-      font-style: italic;
-      letter-spacing: 0.06em;
-      color: var(--text);
-      text-decoration: none;
+      font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 300;
+      font-style: italic; letter-spacing: 0.08em; color: var(--text); text-decoration: none; line-height: 1;
     }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-    .nav-links li a {
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text2);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links li a { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text2); text-decoration: none; transition: color 0.2s; }
     .nav-links li a:hover { color: var(--text); }
-
     .nav-inquire {
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text2);
-      text-decoration: none;
-      border-bottom: 0.5px solid var(--border2);
-      padding-bottom: 1px;
-      transition: color 0.2s;
+      font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--bg); background: var(--text); text-decoration: none; padding: 9px 20px; transition: opacity 0.2s;
     }
-    .nav-inquire:hover { color: var(--text); }
+    .nav-inquire:hover { opacity: 0.75; }
 
-    /* ── HERO ── */
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 88vh;
-      border-bottom: 0.5px solid var(--border);
-    }
+    /* ── MARQUEE ── */
+    .marquee-wrap { background: var(--dark); overflow: hidden; padding: 11px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
+    .marquee-track { display: flex; white-space: nowrap; animation: marquee 30s linear infinite; }
+    .marquee-track:hover { animation-play-state: paused; }
+    .marquee-item { font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(201,169,110,0.65); padding: 0 2.5rem; flex-shrink: 0; }
+    .marquee-sep { color: rgba(201,169,110,0.28); padding: 0 0.5rem; flex-shrink: 0; font-size: 10px; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-    .hero-image {
-      background: #1a1510;
-      position: relative;
-      overflow: hidden;
+    /* ── HERO CAROUSEL ── */
+    .hero { position: relative; width: 100%; height: 90vh; overflow: hidden; background: var(--dark); }
+    .hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.1s cubic-bezier(0.4,0,0.2,1); }
+    .hero-slide.active { opacity: 1; }
+    .hero-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; filter: brightness(0.58); }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, rgba(10,9,7,0.78) 0%, rgba(10,9,7,0.42) 50%, rgba(10,9,7,0.08) 100%);
     }
-    .hero-image img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      object-position: left center;
-      min-height: 520px;
+    .hero-work-tag {
+      position: absolute; top: 2rem; left: 2rem; font-size: 10px; letter-spacing: 0.22em;
+      text-transform: uppercase; color: rgba(245,237,224,0.5); background: rgba(10,9,7,0.5); padding: 7px 14px; z-index: 5;
     }
-    .hero-badge {
-      position: absolute;
-      top: 1.5rem;
-      left: 1.5rem;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #fff;
-      background: rgba(0,0,0,0.5);
-      padding: 6px 12px;
-    }
-
     .hero-content {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 4rem 3.5rem;
-      border-left: 0.5px solid var(--border);
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 0 5rem 5rem;
+      display: grid; grid-template-columns: 1fr auto; align-items: flex-end; gap: 4rem;
     }
-
-    .hero-eyebrow {
-      font-size: 10px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--text2);
-      margin-bottom: 1.5rem;
-    }
-
+    .hero-eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.25rem; display: block; }
     .hero-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 52px;
-      font-weight: 300;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
+      font-family: 'Cormorant Garamond', serif; font-size: 74px; font-weight: 300;
+      line-height: 0.97; color: #f5ede0; margin-bottom: 1.75rem;
     }
-    .hero-title em { font-style: italic; }
-
-    .hero-meta {
-      font-size: 13px;
-      color: var(--text2);
-      line-height: 1.8;
-      margin-bottom: 2.5rem;
-      max-width: 320px;
-      border-left: 1px solid var(--border2);
-      padding-left: 1rem;
-    }
-
+    .hero-title em { font-style: italic; color: var(--gold2); }
+    .hero-subtitle { font-size: 13px; color: rgba(245,237,224,0.6); line-height: 1.85; max-width: 380px; margin-bottom: 2.25rem; }
     .hero-actions { display: flex; gap: 1rem; align-items: center; }
-
-    .btn-primary {
-      font-family: 'Jost', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 12px 28px;
-      background: var(--text);
-      color: var(--bg);
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: opacity 0.2s;
+    .btn-gold {
+      font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 13px 32px; background: var(--gold); color: var(--dark);
+      border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: opacity 0.2s;
     }
-    .btn-primary:hover { opacity: 0.75; }
-
-    .btn-ghost {
-      font-family: 'Jost', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 12px 0;
-      background: none;
-      color: var(--text2);
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      border-bottom: 0.5px solid var(--border2);
-      display: inline-block;
-      transition: color 0.2s;
+    .btn-gold:hover { opacity: 0.85; }
+    .btn-ghost-light {
+      font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 12px 0; background: none; color: rgba(245,237,224,0.58);
+      border: none; cursor: pointer; text-decoration: none;
+      border-bottom: 0.5px solid rgba(201,169,110,0.4); display: inline-block; transition: color 0.2s;
     }
-    .btn-ghost:hover { color: var(--text); }
-
-    /* ── TICKER ── */
-    .ticker {
-      padding: 10px 2.5rem;
-      border-bottom: 0.5px solid var(--border);
-      display: flex;
-      gap: 3rem;
-      overflow: hidden;
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text2);
+    .btn-ghost-light:hover { color: var(--gold2); }
+    .hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.85rem; }
+    .hero-counter { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; color: rgba(245,237,224,0.35); letter-spacing: 0.1em; }
+    .hero-dots { display: flex; gap: 10px; }
+    .hero-dot { width: 28px; height: 2px; background: rgba(201,169,110,0.22); cursor: pointer; transition: background 0.3s; }
+    .hero-dot.active { background: var(--gold); }
+    .hero-arrows { position: absolute; bottom: 5rem; right: 5rem; display: flex; gap: 0.5rem; z-index: 10; }
+    .hero-arrow {
+      width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
+      border: 0.5px solid rgba(201,169,110,0.3); background: rgba(15,14,12,0.55);
+      color: rgba(201,169,110,0.65); font-size: 24px; cursor: pointer; transition: all 0.2s;
     }
+    .hero-arrow:hover { background: rgba(201,169,110,0.12); color: var(--gold); }
 
-    /* ── ART IN FOCUS SECTION ── */
-    .focus-section {
-      background: #111009;
-      border-bottom: 0.5px solid rgba(255,255,255,0.08);
-      overflow: hidden;
-    }
-
+    /* ── ART IN FOCUS ── */
+    .focus-section { background: var(--dark); }
     .focus-header {
-      padding: 2.5rem 2.5rem 0;
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 2rem 2.5rem 1.5rem; border-bottom: 0.5px solid rgba(255,255,255,0.06);
     }
-
-    .focus-eyebrow {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 13px;
-      font-style: italic;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0;
-    }
-
-    /* Carousel */
-    .focus-carousel {
-      display: grid;
-      grid-template-columns: 1fr 400px;
-      min-height: 72vh;
-      position: relative;
-    }
-
-    .focus-image-area {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .focus-slide {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 0.8s ease;
-    }
+    .section-title-dark { font-family: 'Cormorant Garamond', serif; font-size: 11px; font-style: italic; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
+    .focus-view-all { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(201,169,110,0.45); text-decoration: none; border-bottom: 0.5px solid rgba(201,169,110,0.22); padding-bottom: 1px; transition: color 0.2s; }
+    .focus-view-all:hover { color: var(--gold); }
+    .focus-carousel { display: grid; grid-template-columns: 1fr 420px; min-height: 68vh; position: relative; }
+    .focus-image-area { position: relative; overflow: hidden; }
+    .focus-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.9s ease; }
     .focus-slide.active { opacity: 1; }
-
-    .focus-slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
+    .focus-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .focus-prev, .focus-next {
+      position: absolute; top: 50%; transform: translateY(-50%); width: 52px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(10,9,7,0.6); border: 0.5px solid rgba(201,169,110,0.22);
+      color: rgba(201,169,110,0.6); font-size: 26px; cursor: pointer; z-index: 10; transition: all 0.2s;
     }
-
-    /* nav arrows */
-    .focus-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0,0,0,0.45);
-      border: 0.5px solid rgba(201,169,110,0.3);
-      color: rgba(201,169,110,0.7);
-      font-size: 28px;
-      font-weight: 200;
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 10;
-      transition: background 0.2s, color 0.2s;
-      line-height: 1;
+    .focus-prev:hover, .focus-next:hover { background: rgba(201,169,110,0.1); color: var(--gold); }
+    .focus-prev { left: 1.5rem; } .focus-next { right: 1.5rem; }
+    .focus-panel {
+      background: var(--dark2); border-left: 0.5px solid rgba(255,255,255,0.05);
+      display: flex; flex-direction: column; justify-content: space-between; padding: 2.5rem 2.25rem;
     }
-    .focus-arrow:hover { background: rgba(201,169,110,0.15); color: var(--gold); }
-    .focus-arrow.left { left: 1.5rem; }
-    .focus-arrow.right { right: 1.5rem; }
-
-    .focus-info-panel {
-      background: #1c1914;
-      border-left: 0.5px solid rgba(201,169,110,0.15);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 3rem 2.5rem;
-    }
-
-    .focus-work-label {
-      font-size: 9px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(201,169,110,0.5);
-      margin-bottom: 2rem;
-    }
-
-    .focus-work-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 36px;
-      font-weight: 300;
-      line-height: 1.1;
-      color: #f0e8dc;
-      margin-bottom: 0.5rem;
-      letter-spacing: 0.02em;
-    }
-
-    .focus-work-artist {
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 2rem;
-    }
-
-    .focus-story-text {
-      font-size: 13.5px;
-      color: rgba(240,232,220,0.6);
-      line-height: 1.85;
-      margin-bottom: 2rem;
-      font-style: italic;
-      font-family: 'Cormorant Garamond', serif;
-    }
-
-    .focus-meta-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      margin-bottom: 2.5rem;
-      padding-top: 1.5rem;
-      border-top: 0.5px solid rgba(201,169,110,0.15);
-    }
-
-    .focus-meta-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11.5px;
-    }
-    .focus-meta-row .k {
-      font-size: 9px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(201,169,110,0.45);
-    }
-    .focus-meta-row .v { color: rgba(240,232,220,0.65); }
-
+    .focus-badge { font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase; color: rgba(201,169,110,0.4); margin-bottom: 1.75rem; display: block; }
+    .focus-work-title { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; line-height: 1.07; color: #f0e8dc; margin-bottom: 0.6rem; }
+    .focus-work-artist { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.75rem; }
+    .focus-story { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; color: rgba(240,232,220,0.52); line-height: 1.8; margin-bottom: 2rem; }
+    .focus-divider { border: none; border-top: 0.5px solid rgba(255,255,255,0.06); margin-bottom: 1.5rem; }
+    .focus-meta-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 0.5px solid rgba(255,255,255,0.04); font-size: 12px; }
+    .focus-meta-row:last-of-type { border-bottom: none; }
+    .focus-meta-k { font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(201,169,110,0.38); }
+    .focus-meta-v { color: rgba(240,232,220,0.58); }
     .focus-explore-btn {
-      font-family: 'Jost', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      padding: 13px 28px;
-      background: var(--gold);
-      color: #111009;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: opacity 0.2s;
-      align-self: flex-start;
+      font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+      padding: 14px 32px; background: var(--gold); color: var(--dark);
+      border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: opacity 0.2s; margin-top: 2rem;
     }
-    .focus-explore-btn:hover { opacity: 0.8; }
-
-    /* dots */
-    .focus-dots {
-      display: flex;
-      gap: 8px;
-      padding: 1.25rem 2.5rem;
-      background: #111009;
-      border-top: 0.5px solid rgba(201,169,110,0.1);
-    }
-    .focus-dot {
-      width: 24px;
-      height: 2px;
-      background: rgba(201,169,110,0.25);
-      cursor: pointer;
-      transition: background 0.3s;
-    }
+    .focus-explore-btn:hover { opacity: 0.82; }
+    .focus-dots { display: flex; gap: 8px; padding: 1.25rem 2.5rem; background: var(--dark); border-top: 0.5px solid rgba(255,255,255,0.04); }
+    .focus-dot { width: 28px; height: 2px; background: rgba(201,169,110,0.18); cursor: pointer; transition: background 0.3s; }
     .focus-dot.active { background: var(--gold); }
 
     /* ── SECTION HEADER ── */
     .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 2rem 2.5rem 1.5rem;
-      border-bottom: 0.5px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.75rem 2.5rem; border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border);
     }
-    .section-label {
-      font-size: 10px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--text2);
-    }
+    .section-label { font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--text2); }
+    .section-link { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); text-decoration: none; border-bottom: 0.5px solid var(--border2); padding-bottom: 1px; transition: color 0.2s; }
+    .section-link:hover { color: var(--text); }
 
     /* ── GALLERY GRID ── */
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-bottom: 0.5px solid var(--border);
-    }
-
-    .art-cell {
-      border-right: 0.5px solid var(--border);
-      border-bottom: 0.5px solid var(--border);
-      cursor: pointer;
-      overflow: hidden;
-      position: relative;
-      text-decoration: none;
-      color: inherit;
-      display: block;
-      transition: transform 0.3s ease;
-    }
-    .art-cell:hover { transform: translateY(-2px); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 0.5px solid var(--border); }
+    .art-cell { border-right: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); cursor: pointer; overflow: hidden; position: relative; text-decoration: none; color: inherit; display: block; }
     .art-cell:nth-child(3n) { border-right: none; }
-    .art-cell:nth-child(n+7) { border-bottom: none; }
-
-    .art-image-wrap {
-      width: 100%;
-      aspect-ratio: 4/5;
-      overflow: hidden;
-      position: relative;
-      /* Frame / padding effect */
-      padding: 10px;
-      background: #f7f3ee;
-    }
-
+    .art-image-wrap { width: 100%; aspect-ratio: 4/5; overflow: hidden; position: relative; padding: 12px; background: #f5f1eb; }
     .art-image-frame {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      outline: 1px solid rgba(26,23,20,0.14);
-      outline-offset: -1px;
-      box-shadow: inset 0 0 0 4px rgba(250,249,247,0.9), inset 0 0 0 5px rgba(26,23,20,0.10);
+      width: 100%; height: 100%; overflow: hidden; position: relative;
+      box-shadow: inset 0 0 0 6px rgba(250,249,247,0.95), inset 0 0 0 7px rgba(26,23,20,0.09);
     }
+    .art-image-frame img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94); }
+    .art-cell:hover .art-image-frame img { transform: scale(1.04); }
+    .art-caption-overlay {
+      position: absolute; inset: 12px;
+      background: linear-gradient(to top, rgba(10,9,7,0.84) 0%, transparent 55%);
+      opacity: 0; transition: opacity 0.4s; pointer-events: none;
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem 1rem;
+    }
+    .art-cell:hover .art-caption-overlay { opacity: 1; }
+    .art-caption-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; color: #f5ede0; line-height: 1.2; margin-bottom: 4px; }
+    .art-caption-sub { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(201,169,110,0.8); }
+    .art-info { padding: 1rem 1.25rem 1.25rem; border-top: 0.5px solid var(--border); }
+    .art-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; margin-bottom: 4px; }
+    .art-artist { font-size: 11px; letter-spacing: 0.1em; color: var(--text2); margin-bottom: 3px; }
+    .art-medium { font-size: 11px; color: var(--text3); }
 
-    .art-image-frame img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-    .art-cell:hover .art-image-frame img { transform: scale(1.03); }
+    /* ── QUOTE STRIP ── */
+    .quote-strip { background: var(--bg2); padding: 3.5rem 2.5rem; text-align: center; border-bottom: 0.5px solid var(--border); }
+    .quote-text { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-style: italic; font-weight: 300; color: var(--text); line-height: 1.5; max-width: 720px; margin: 0 auto 1rem; }
+    .quote-attr { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text3); }
 
-    .art-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0);
-      transition: background 0.3s;
-      pointer-events: none;
-    }
-    .art-cell:hover .art-overlay { background: rgba(0,0,0,0.04); }
-
-    .art-info {
-      padding: 1rem 1.25rem 1.25rem;
-      border-top: 0.5px solid var(--border);
-    }
-    .art-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 17px;
-      font-style: italic;
-      margin-bottom: 4px;
-    }
-    .art-artist {
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      color: var(--text2);
-      margin-bottom: 3px;
-    }
-    .art-medium {
-      font-size: 11px;
-      color: var(--text3);
-    }
-
-    /* ── ABOUT — DARK THEME ── */
-    .about-strip {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      border-bottom: 0.5px solid var(--border);
-      background: #141210;
-    }
-
-    .about-text {
-      padding: 3.5rem 2.5rem;
-      border-right: 0.5px solid rgba(255,255,255,0.08);
-    }
-
-    .about-eyebrow {
-      font-size: 10px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-      display: block;
-    }
-
-    .about-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 44px;
-      font-weight: 300;
-      line-height: 1.15;
-      margin-bottom: 1.5rem;
-      color: #f0e8dc;
-    }
-    .about-heading em { font-style: italic; color: var(--gold); }
-
-    .about-body {
-      font-size: 14px;
-      color: rgba(240,232,220,0.6);
-      line-height: 1.85;
-      max-width: 420px;
-      margin-bottom: 1.25rem;
-    }
-
-    .about-pull {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      font-style: italic;
-      color: rgba(201,169,110,0.85);
-      line-height: 1.55;
-      border-left: 1.5px solid rgba(201,169,110,0.35);
-      padding-left: 1rem;
-      margin: 1.75rem 0;
-    }
-
-    .about-text .btn-ghost {
-      color: var(--gold);
-      border-bottom-color: rgba(201,169,110,0.4);
-    }
-    .about-text .btn-ghost:hover { color: #e8c980; }
-
-    .about-stat-row {
-      display: flex;
-      gap: 2.5rem;
-      margin-top: 2rem;
-      padding-top: 1.5rem;
-      border-top: 0.5px solid rgba(255,255,255,0.08);
-    }
-    .stat-block { display: flex; flex-direction: column; gap: 4px; }
-    .stat-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 28px;
-      font-weight: 300;
-      color: #f0e8dc;
-    }
-    .stat-lbl {
-      font-size: 10px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(240,232,220,0.4);
-    }
-
-    .about-image {
-      overflow: hidden;
-    }
-    .about-image img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      object-position: 70% center;
-    }
+    /* ── ABOUT ── */
+    .about-strip { display: grid; grid-template-columns: 1fr 1fr; background: var(--dark2); border-bottom: 0.5px solid rgba(255,255,255,0.05); }
+    .about-text { padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center; border-right: 0.5px solid rgba(255,255,255,0.05); }
+    .about-eyebrow { font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; display: block; }
+    .about-heading { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; line-height: 1.05; color: #f0e8dc; margin-bottom: 1.5rem; }
+    .about-heading em { font-style: italic; }
+    .about-body { font-size: 13.5px; color: rgba(240,232,220,0.52); line-height: 1.85; max-width: 400px; margin-bottom: 1.25rem; }
+    .about-pull { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; color: rgba(201,169,110,0.8); line-height: 1.55; border-left: 1.5px solid rgba(201,169,110,0.3); padding-left: 1.25rem; margin: 1.75rem 0; }
+    .about-link { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 0.5px solid rgba(201,169,110,0.35); padding-bottom: 2px; display: inline-block; transition: color 0.2s; }
+    .about-link:hover { color: var(--gold2); }
+    .about-stats { display: flex; gap: 2.5rem; margin-top: 2.5rem; padding-top: 1.75rem; border-top: 0.5px solid rgba(255,255,255,0.07); }
+    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: #f0e8dc; line-height: 1; }
+    .stat-lbl { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(240,232,220,0.32); margin-top: 5px; }
+    .about-image { overflow: hidden; }
+    .about-image img { width: 100%; height: 100%; object-fit: cover; object-position: 20% center; display: block; transition: transform 0.8s ease; }
+    .about-image:hover img { transform: scale(1.03); }
 
     /* ── NEWSLETTER ── */
-    .newsletter {
-      padding: 3rem 2.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 2rem;
-      border-bottom: 0.5px solid var(--border);
-    }
-    .newsletter-text { max-width: 400px; }
-    .newsletter-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 26px;
-      font-weight: 300;
-      margin-bottom: 8px;
-    }
+    .newsletter { padding: 3rem 2.5rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; border-bottom: 0.5px solid var(--border); }
+    .newsletter-heading { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; margin-bottom: 8px; }
     .newsletter-sub { font-size: 13px; color: var(--text2); }
-
-    .newsletter-form {
-      display: flex;
-      border-bottom: 1px solid var(--border2);
-      min-width: 300px;
-    }
-    .newsletter-input {
-      font-family: 'Jost', sans-serif;
-      font-size: 13px;
-      padding: 10px 0;
-      border: none;
-      background: none;
-      flex: 1;
-      color: var(--text);
-      outline: none;
-      letter-spacing: 0.05em;
-    }
+    .newsletter-form { display: flex; border-bottom: 1px solid var(--border2); min-width: 320px; }
+    .newsletter-input { font-family: 'Jost', sans-serif; font-size: 13px; padding: 10px 0; border: none; background: none; flex: 1; color: var(--text); outline: none; }
     .newsletter-input::placeholder { color: var(--text3); }
-    .newsletter-btn {
-      font-family: 'Jost', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      padding: 10px 16px;
-      background: none;
-      border: none;
-      color: var(--text2);
-      cursor: pointer;
-      transition: color 0.2s;
-    }
+    .newsletter-btn { font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 10px 16px; background: none; border: none; color: var(--text2); cursor: pointer; transition: color 0.2s; }
     .newsletter-btn:hover { color: var(--text); }
 
     /* ── FOOTER ── */
-    footer {
-      padding: 2rem 2.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .footer-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
-      font-weight: 400;
-      font-style: italic;
-      letter-spacing: 0.04em;
-    }
-    .footer-links {
-      display: flex;
-      gap: 1.5rem;
-      list-style: none;
-    }
-    .footer-links li a {
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text2);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer-links li a:hover { color: var(--text); }
-    .footer-copy { font-size: 11px; color: var(--text3); }
+    footer { background: var(--dark); padding: 3rem 2.5rem 2rem; }
+    .footer-top { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 3rem; padding-bottom: 2.5rem; border-bottom: 0.5px solid rgba(255,255,255,0.06); margin-bottom: 1.75rem; }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; font-style: italic; color: #f0e8dc; letter-spacing: 0.07em; line-height: 1; margin-bottom: 1rem; display: block; }
+    .footer-tagline { font-size: 12px; color: rgba(240,232,220,0.35); line-height: 1.75; max-width: 230px; }
+    .footer-col-title { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(201,169,110,0.5); margin-bottom: 1.25rem; }
+    .footer-links-col { display: flex; flex-direction: column; gap: 0.65rem; }
+    .footer-links-col a { font-size: 12px; color: rgba(240,232,220,0.4); text-decoration: none; transition: color 0.2s; }
+    .footer-links-col a:hover { color: var(--gold); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 11px; color: rgba(240,232,220,0.22); }
+    .footer-insta { font-size: 11px; color: rgba(240,232,220,0.32); text-decoration: none; letter-spacing: 0.1em; transition: color 0.2s; }
+    .footer-insta:hover { color: var(--gold); }
 
     /* ── MODAL ── */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.72);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-    }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 1000; align-items: center; justify-content: center; }
     .modal.active { display: flex; }
-
-    .modal-content {
-      background: var(--bg);
-      width: 90%;
-      max-width: 680px;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-    }
-    .modal-close {
-      position: absolute;
-      top: 1rem; right: 1.25rem;
-      background: none;
-      border: none;
-      font-size: 22px;
-      cursor: pointer;
-      color: var(--text2);
-      z-index: 1001;
-      line-height: 1;
-    }
+    .modal-content { background: var(--bg); width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; position: relative; }
+    .modal-close { position: absolute; top: 1rem; right: 1.25rem; background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text2); z-index: 1001; }
     .modal-close:hover { color: var(--text); }
-
-    .modal-image-wrap {
-      width: 100%;
-      max-height: 480px;
-      overflow: hidden;
-      background: #f7f3ee;
-      padding: 14px;
-    }
-    .modal-image-frame {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      box-shadow: inset 0 0 0 5px rgba(250,249,247,0.95), inset 0 0 0 6px rgba(26,23,20,0.12);
-    }
-    .modal-image {
-      width: 100%;
-      max-height: 452px;
-      object-fit: cover;
-      display: block;
-    }
+    .modal-image-wrap { width: 100%; overflow: hidden; background: #f5f1eb; padding: 14px; }
+    .modal-image-frame { width: 100%; overflow: hidden; box-shadow: inset 0 0 0 6px rgba(250,249,247,0.95), inset 0 0 0 7px rgba(26,23,20,0.1); }
+    .modal-image { width: 100%; max-height: 460px; object-fit: cover; display: block; }
     .modal-info { padding: 2rem 2rem 2.5rem; }
-    .modal-eyebrow {
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--text3);
-      margin-bottom: 0.75rem;
-    }
-    .modal-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 28px;
-      font-style: italic;
-      font-weight: 300;
-      margin-bottom: 0.4rem;
-      line-height: 1.15;
-    }
-    .modal-artist {
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text2);
-      margin-bottom: 1.25rem;
-    }
-    .modal-divider {
-      border: none;
-      border-top: 0.5px solid var(--border);
-      margin: 1.25rem 0;
-    }
-    .modal-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      margin-bottom: 1.75rem;
-    }
-    .modal-meta-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--text2);
-    }
-    .modal-meta-row span:first-child {
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text3);
-    }
+    .modal-eyebrow { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text3); margin-bottom: 0.75rem; }
+    .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-style: italic; font-weight: 300; margin-bottom: 0.4rem; line-height: 1.15; }
+    .modal-artist { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text2); margin-bottom: 1.25rem; }
+    .modal-divider { border: none; border-top: 0.5px solid var(--border); margin: 1.25rem 0; }
+    .modal-meta { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.75rem; }
+    .modal-meta-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); }
+    .modal-meta-row span:first-child { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); }
+    .btn-primary { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; padding: 13px 28px; background: var(--text); color: var(--bg); border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: opacity 0.2s; }
+    .btn-primary:hover { opacity: 0.75; }
 
-    /* ── MOBILE ── */
-    @media (max-width: 768px) {
-      nav { padding: 1.2rem 1.5rem; }
-      .nav-links { display: none; }
-      .hero { grid-template-columns: 1fr; }
-      .hero-content { padding: 2.5rem 1.5rem; border-left: none; border-top: 0.5px solid var(--border); }
-      .hero-title { font-size: 36px; }
-      .hero-image { min-height: 320px; }
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.75s ease, transform 0.75s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-content { grid-template-columns: 1fr; padding: 0 2rem 3.5rem; }
+      .hero-right { display: none; }
+      .hero-title { font-size: 52px; }
+      .hero-arrows { bottom: 3.5rem; right: 2rem; }
       .focus-carousel { grid-template-columns: 1fr; }
-      .focus-info-panel { border-left: none; border-top: 0.5px solid rgba(201,169,110,0.15); }
-      .gallery-grid { grid-template-columns: 1fr 1fr; }
-      .art-cell:nth-child(3n) { border-right: 0.5px solid var(--border); }
-      .art-cell:nth-child(2n) { border-right: none; }
-      .art-cell:nth-child(n+7) { border-bottom: 0.5px solid var(--border); }
-      .art-cell:nth-child(n+9) { border-bottom: none; }
+      .focus-panel { border-left: none; border-top: 0.5px solid rgba(255,255,255,0.05); }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
       .about-strip { grid-template-columns: 1fr; }
-      .about-image { min-height: 360px; }
-      .about-text { border-right: none; border-bottom: 0.5px solid rgba(255,255,255,0.08); }
+      .about-image { min-height: 320px; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
       .newsletter { flex-direction: column; align-items: flex-start; }
-      .newsletter-form { min-width: 100%; width: 100%; }
-      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
-      .ticker { gap: 1.5rem; font-size: 10px; }
+      .newsletter-form { min-width: 100%; }
     }
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
+      nav { padding: 0 1.5rem; }
+      .nav-links { display: none; }
+      .hero-title { font-size: 40px; }
       .gallery-grid { grid-template-columns: 1fr; }
-      .art-cell:nth-child(n) { border-right: none; border-bottom: 0.5px solid var(--border); }
-      .art-cell:last-child { border-bottom: none; }
+      .footer-top { grid-template-columns: 1fr; }
+      footer { padding: 2.5rem 1.5rem 1.5rem; }
     }
   </style>
 </head>
@@ -775,216 +280,141 @@
     <a href="#" class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Krira</a>
     <ul class="nav-links">
       <li><a href="#collection" onclick="goTo(event,'collection')">Collection</a></li>
-      <li><a href="#about" onclick="goTo(event,'about')">About the Artist</a></li>
+      <li><a href="#art-in-focus" onclick="goTo(event,'art-in-focus')">Art in Focus</a></li>
+      <li><a href="#about" onclick="goTo(event,'about')">About</a></li>
     </ul>
     <a href="mailto:priyankasinghworld@gmail.com" class="nav-inquire">Inquire</a>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-image">
-      <img src="arts/image1.jpg" alt="Featured work" />
-      <div class="hero-badge">Featured work</div>
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">New works — 2025</span><span class="marquee-sep">·</span>
+      <span class="marquee-item">Oil &amp; Mixed Media</span><span class="marquee-sep">·</span>
+      <span class="marquee-item">Worldwide shipping available</span><span class="marquee-sep">·</span>
+      <span class="marquee-item">Original works by Priyanka Singh</span><span class="marquee-sep">·</span>
+      <span class="marquee-item">Inquiries welcome</span><span class="marquee-sep">·</span>
+      <span class="marquee-item">Bengaluru, India</span><span class="marquee-sep">·</span>
+      <!-- duplicate for seamless loop -->
+      <span class="marquee-item">New works — 2025</span><span class="marquee-sep">·</span>
+      <span class="marquee-item">Oil &amp; Mixed Media</span><span class="marquee-sep">·</span>
+      <span class="marquee-item">Worldwide shipping available</span><span class="marquee-sep">·</span>
+      <span class="marquee-item">Original works by Priyanka Singh</span><span class="marquee-sep">·</span>
+      <span class="marquee-item">Inquiries welcome</span><span class="marquee-sep">·</span>
+      <span class="marquee-item">Bengaluru, India</span><span class="marquee-sep">·</span>
     </div>
+  </div>
+
+  <!-- HERO CAROUSEL -->
+  <section class="hero" id="hero">
+    <div class="hero-slide active" id="hslide-0"><img src="arts/image1.jpg" alt="Featured work" /></div>
+    <div class="hero-slide" id="hslide-1"><img src="arts/image5.jpg" alt="Still Waters" /></div>
+    <div class="hero-slide" id="hslide-2"><img src="arts/image8.jpg" alt="Solitude IV" /></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-work-tag" id="heroTag">Featured work</div>
     <div class="hero-content">
-      <p class="hero-eyebrow">By Priyanka Singh — 2026</p>
-      <h1 class="hero-title">Where <em>layers shapes</em><br>depth<br></h1>
-      <p class="hero-meta">Krira Gallery presents original works by Priyanka Singh — curated for collectors, enthusiasts, and those who believe art belongs everywhere.</p>
-      <div class="hero-actions">
-        <a href="#collection" class="btn-primary" onclick="goTo(event,'collection')">View collection</a>
-        <a href="#about" class="btn-ghost" onclick="goTo(event,'about')">About the artist</a>
+      <div>
+        <span class="hero-eyebrow">Priyanka Singh · Krira Gallery · 2025</span>
+        <h1 class="hero-title">Where <em>layers</em><br>shape depth<br>&amp; elegance</h1>
+        <p class="hero-subtitle">A one-stop destination for original Indian art — curated for collectors, enthusiasts, and those who believe art belongs everywhere, without walls.</p>
+        <div class="hero-actions">
+          <a href="#collection" class="btn-gold" onclick="goTo(event,'collection')">View collection</a>
+          <a href="#about" class="btn-ghost-light" onclick="goTo(event,'about')">About the artist</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-counter" id="heroCounter">01 / 03</div>
+        <div class="hero-dots" id="heroDots"></div>
       </div>
     </div>
+    <div class="hero-arrows">
+      <button class="hero-arrow" onclick="heroNav(-1)">&#8249;</button>
+      <button class="hero-arrow" onclick="heroNav(1)">&#8250;</button>
+    </div>
   </section>
-
-  <!-- TICKER -->
-  <div class="ticker">
-    <span>New works — 2026</span>
-    <span>·</span>
-    <span>Acrilic &amp; Mixed Media</span>
-    <span>·</span>
-    <span>Worldwide shipping available</span>
-    <span>·</span>
-    <span>Inquiries welcome</span>
-  </div>
 
   <!-- ART IN FOCUS -->
   <section class="focus-section" id="art-in-focus">
     <div class="focus-header">
-      <p class="focus-eyebrow">Art in Focus</p>
+      <span class="section-title-dark">Art in Focus</span>
+      <a href="mailto:priyankasinghworld@gmail.com?subject=Interest in upcoming works" class="focus-view-all">Express interest →</a>
     </div>
     <div class="focus-carousel">
-      <div class="focus-image-area" id="focusImageArea">
-        <div class="focus-slide active" id="slide-0">
-          <img src="arts/image11.jpg" alt="Work in Progress I" />
-        </div>
-        <div class="focus-slide" id="slide-1">
-          <img src="arts/image12.jpg" alt="Work in Progress II" />
-        </div>
-        <button class="focus-arrow left" onclick="focusNav(-1)">&#8249;</button>
-        <button class="focus-arrow right" onclick="focusNav(1)">&#8250;</button>
+      <div class="focus-image-area">
+        <div class="focus-slide active" id="fslide-0"><img src="arts/image11.jpg" alt="Work in Progress I" /></div>
+        <div class="focus-slide" id="fslide-1"><img src="arts/image12.jpg" alt="Work in Progress II" /></div>
+        <button class="focus-prev" onclick="focusNav(-1)">&#8249;</button>
+        <button class="focus-next" onclick="focusNav(1)">&#8250;</button>
       </div>
-      <div class="focus-info-panel" id="focusInfoPanel">
-        <!-- filled by JS -->
-      </div>
+      <div class="focus-panel" id="focusPanel"></div>
     </div>
     <div class="focus-dots" id="focusDots"></div>
   </section>
 
   <!-- COLLECTION -->
   <div class="section-header" id="collection">
-    <span class="section-label">Current collection</span>
+    <span class="section-label">Current collection · 2025</span>
+    <a href="mailto:priyankasinghworld@gmail.com?subject=Collection Inquiry" class="section-link">Inquire about the collection →</a>
   </div>
 
   <div class="gallery-grid">
-
     <a href="#" class="art-cell" onclick="openModal(event,2,'Orbital Memory','Oil on canvas','90 × 120 cm','2024')">
-      <div class="art-image-wrap">
-        <div class="art-image-frame">
-          <img src="arts/image02.jpg" alt="Orbital Memory" />
-          <div class="art-overlay"></div>
-        </div>
-      </div>
-      <div class="art-info">
-        <div class="art-title">Orbital Memory</div>
-        <div class="art-artist">Priyanka Singh</div>
-        <div class="art-medium">Oil on canvas · 2026</div>
-      </div>
+      <div class="art-image-wrap"><div class="art-image-frame"><img src="arts/image2.jpg" alt="Orbital Memory" /></div><div class="art-caption-overlay"><div class="art-caption-title">Orbital Memory</div><div class="art-caption-sub">Oil on canvas · 2024</div></div></div>
+      <div class="art-info"><div class="art-title">Orbital Memory</div><div class="art-artist">Priyanka Singh</div><div class="art-medium">Oil on canvas · 2024</div></div>
     </a>
-
     <a href="#" class="art-cell" onclick="openModal(event,3,'Earth &amp; Shadow','Oil on canvas','60 × 90 cm','2023')">
-      <div class="art-image-wrap">
-        <div class="art-image-frame">
-          <img src="arts/image3.jpg" alt="Earth & Shadow" />
-          <div class="art-overlay"></div>
-        </div>
-      </div>
-      <div class="art-info">
-        <div class="art-title">Earth &amp; Shadow</div>
-        <div class="art-artist">Priyanka Singh</div>
-        <div class="art-medium">Acrilic on canvas · 2025</div>
-      </div>
+      <div class="art-image-wrap"><div class="art-image-frame"><img src="arts/image3.jpg" alt="Earth & Shadow" /></div><div class="art-caption-overlay"><div class="art-caption-title">Earth &amp; Shadow</div><div class="art-caption-sub">Oil on canvas · 2023</div></div></div>
+      <div class="art-info"><div class="art-title">Earth &amp; Shadow</div><div class="art-artist">Priyanka Singh</div><div class="art-medium">Oil on canvas · 2023</div></div>
     </a>
-
     <a href="#" class="art-cell" onclick="openModal(event,4,'Concentric Void','Mixed media','100 × 100 cm','2024')">
-      <div class="art-image-wrap">
-        <div class="art-image-frame">
-          <img src="arts/image4.jpg" alt="Concentric Void" />
-          <div class="art-overlay"></div>
-        </div>
-      </div>
-      <div class="art-info">
-        <div class="art-title">Concentric Void</div>
-        <div class="art-artist">Priyanka Singh</div>
-        <div class="art-medium">Mixed media · 2024</div>
-      </div>
+      <div class="art-image-wrap"><div class="art-image-frame"><img src="arts/image4.jpg" alt="Concentric Void" /></div><div class="art-caption-overlay"><div class="art-caption-title">Concentric Void</div><div class="art-caption-sub">Mixed media · 2024</div></div></div>
+      <div class="art-info"><div class="art-title">Concentric Void</div><div class="art-artist">Priyanka Singh</div><div class="art-medium">Mixed media · 2024</div></div>
     </a>
-
     <a href="#" class="art-cell" onclick="openModal(event,5,'Still Waters','Watercolour','50 × 70 cm','2023')">
-      <div class="art-image-wrap">
-        <div class="art-image-frame">
-          <img src="arts/image5.jpg" alt="Still Waters" />
-          <div class="art-overlay"></div>
-        </div>
-      </div>
-      <div class="art-info">
-        <div class="art-title">Still Waters</div>
-        <div class="art-artist">Priyanka Singh</div>
-        <div class="art-medium">Watercolour · 2024</div>
-      </div>
+      <div class="art-image-wrap"><div class="art-image-frame"><img src="arts/image5.jpg" alt="Still Waters" /></div><div class="art-caption-overlay"><div class="art-caption-title">Still Waters</div><div class="art-caption-sub">Watercolour · 2023</div></div></div>
+      <div class="art-info"><div class="art-title">Still Waters</div><div class="art-artist">Priyanka Singh</div><div class="art-medium">Watercolour · 2023</div></div>
     </a>
-
     <a href="#" class="art-cell" onclick="openModal(event,6,'The Last Flame','Oil on canvas','120 × 180 cm','2024')">
-      <div class="art-image-wrap">
-        <div class="art-image-frame">
-          <img src="arts/image6.jpg" alt="The Last Flame" />
-          <div class="art-overlay"></div>
-        </div>
-      </div>
-      <div class="art-info">
-        <div class="art-title">The Last Flame</div>
-        <div class="art-artist">Priyanka Singh</div>
-        <div class="art-medium">Oil on canvas · 2024</div>
-      </div>
+      <div class="art-image-wrap"><div class="art-image-frame"><img src="arts/image6.jpg" alt="The Last Flame" /></div><div class="art-caption-overlay"><div class="art-caption-title">The Last Flame</div><div class="art-caption-sub">Oil on canvas · 2024</div></div></div>
+      <div class="art-info"><div class="art-title">The Last Flame</div><div class="art-artist">Priyanka Singh</div><div class="art-medium">Oil on canvas · 2024</div></div>
     </a>
-
     <a href="#" class="art-cell" onclick="openModal(event,7,'Geometric Reverie','Mixed media','80 × 80 cm','2023')">
-      <div class="art-image-wrap">
-        <div class="art-image-frame">
-          <img src="arts/image7.jpg" alt="Geometric Reverie" />
-          <div class="art-overlay"></div>
-        </div>
-      </div>
-      <div class="art-info">
-        <div class="art-title">Geometric Reverie</div>
-        <div class="art-artist">Priyanka Singh</div>
-        <div class="art-medium">Mixed media · 2023</div>
-      </div>
+      <div class="art-image-wrap"><div class="art-image-frame"><img src="arts/image7.jpg" alt="Geometric Reverie" /></div><div class="art-caption-overlay"><div class="art-caption-title">Geometric Reverie</div><div class="art-caption-sub">Mixed media · 2023</div></div></div>
+      <div class="art-info"><div class="art-title">Geometric Reverie</div><div class="art-artist">Priyanka Singh</div><div class="art-medium">Mixed media · 2023</div></div>
     </a>
-
     <a href="#" class="art-cell" onclick="openModal(event,8,'Solitude IV','Oil on canvas','150 × 200 cm','2024')">
-      <div class="art-image-wrap">
-        <div class="art-image-frame">
-          <img src="arts/image8.jpg" alt="Solitude IV" />
-          <div class="art-overlay"></div>
-        </div>
-      </div>
-      <div class="art-info">
-        <div class="art-title">Solitude IV</div>
-        <div class="art-artist">Priyanka Singh</div>
-        <div class="art-medium">Oil on canvas · 2024</div>
-      </div>
+      <div class="art-image-wrap"><div class="art-image-frame"><img src="arts/image8.jpg" alt="Solitude IV" /></div><div class="art-caption-overlay"><div class="art-caption-title">Solitude IV</div><div class="art-caption-sub">Oil on canvas · 2024</div></div></div>
+      <div class="art-info"><div class="art-title">Solitude IV</div><div class="art-artist">Priyanka Singh</div><div class="art-medium">Oil on canvas · 2024</div></div>
     </a>
-
     <a href="#" class="art-cell" onclick="openModal(event,9,'Rain Study No. 3','Watercolour','40 × 60 cm','2023')">
-      <div class="art-image-wrap">
-        <div class="art-image-frame">
-          <img src="arts/image9.jpg" alt="Rain Study No. 3" />
-          <div class="art-overlay"></div>
-        </div>
-      </div>
-      <div class="art-info">
-        <div class="art-title">Rain Study No. 3</div>
-        <div class="art-artist">Priyanka Singh</div>
-        <div class="art-medium">Watercolour · 2023</div>
-      </div>
+      <div class="art-image-wrap"><div class="art-image-frame"><img src="arts/image9.jpg" alt="Rain Study No. 3" /></div><div class="art-caption-overlay"><div class="art-caption-title">Rain Study No. 3</div><div class="art-caption-sub">Watercolour · 2023</div></div></div>
+      <div class="art-info"><div class="art-title">Rain Study No. 3</div><div class="art-artist">Priyanka Singh</div><div class="art-medium">Watercolour · 2023</div></div>
     </a>
-
     <a href="#" class="art-cell" onclick="openModal(event,10,'Threshold','Oil on canvas','130 × 180 cm','2024')">
-      <div class="art-image-wrap">
-        <div class="art-image-frame">
-          <img src="arts/image10.jpg" alt="Threshold" />
-          <div class="art-overlay"></div>
-        </div>
-      </div>
-      <div class="art-info">
-        <div class="art-title">Threshold</div>
-        <div class="art-artist">Priyanka Singh</div>
-        <div class="art-medium">Oil on canvas · 2024</div>
-      </div>
+      <div class="art-image-wrap"><div class="art-image-frame"><img src="arts/image10.jpg" alt="Threshold" /></div><div class="art-caption-overlay"><div class="art-caption-title">Threshold</div><div class="art-caption-sub">Oil on canvas · 2024</div></div></div>
+      <div class="art-info"><div class="art-title">Threshold</div><div class="art-artist">Priyanka Singh</div><div class="art-medium">Oil on canvas · 2024</div></div>
     </a>
-
   </div>
 
-  <!-- ABOUT — DARK -->
+  <!-- QUOTE STRIP -->
+  <div class="quote-strip reveal">
+    <p class="quote-text">"I paint to make sense of the world — its silences as much as its noise. Each canvas is a map to somewhere I have never been, but recognise completely."</p>
+    <p class="quote-attr">— Priyanka Singh, Founder · Krira Gallery</p>
+  </div>
+
+  <!-- ABOUT -->
   <section class="about-strip" id="about">
-    <div class="about-text">
+    <div class="about-text reveal">
       <span class="about-eyebrow">About the artist</span>
       <h2 class="about-heading">Priyanka<br><em>Singh</em></h2>
       <p class="about-body">Priyanka Singh is a painter and the founder of Krira Gallery — a space built on the belief that extraordinary art should reach anyone, anywhere, without walls.</p>
       <p class="about-pull">"I paint to make sense of the world — its silences as much as its noise."</p>
-      <p class="about-body">Working primarily in acrilic,oil and mixed media, Priyanka's practice explores the tension between structure and emotion — geometric forms that dissolve at the edges, landscapes that carry memory rather than describe place.</p>
-       <a href="mailto:priyankasinghworld@gmail.com" class="btn-ghost">Get in touch →</a>
-      <div class="about-stat-row">
-        <div class="stat-block">
-          <span class="stat-num">10+</span>
-          <span class="stat-lbl">Years of practice</span>
-        </div>
-        <div class="stat-block">
-          <span class="stat-num">40+</span>
-          <span class="stat-lbl">Works created</span>
-        </div>
-       
+      <p class="about-body">Working in oil and mixed media, her practice explores the tension between structure and emotion — geometric forms that dissolve at the edges, landscapes that carry memory rather than describe place.</p>
+      <a href="mailto:priyankasinghworld@gmail.com" class="about-link">Get in touch →</a>
+      <div class="about-stats">
+        <div><div class="stat-num">10+</div><div class="stat-lbl">Years of practice</div></div>
+        <div><div class="stat-num">40+</div><div class="stat-lbl">Works created</div></div>
+        <div><div class="stat-num">12</div><div class="stat-lbl">Countries reached</div></div>
       </div>
     </div>
     <div class="about-image">
@@ -993,10 +423,10 @@
   </section>
 
   <!-- NEWSLETTER -->
-  <section class="newsletter">
-    <div class="newsletter-text">
+  <section class="newsletter reveal">
+    <div>
       <h3 class="newsletter-heading">Stay close to the art</h3>
-      <p class="newsletter-sub">New works, studio notes, and exhibition openings — delivered thoughtfully.</p>
+      <p class="newsletter-sub">New works, studio notes, and openings — delivered thoughtfully, never frequently.</p>
     </div>
     <form class="newsletter-form" onsubmit="handleSubscribe(event)">
       <input class="newsletter-input" type="email" placeholder="Your email address" required />
@@ -1006,145 +436,129 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-logo">Krira</div>
-    <ul class="footer-links">
-      <li><a href="https://instagram.com/kriragallery" target="_blank">Instagram</a></li>
-      <li><a href="mailto:priyankasinghworld@gmail.com">Contact</a></li>
-      <li><a href="#collection" onclick="goTo(event,'collection')">Gallery</a></li>
-      <li><a href="#">Shipping</a></li>
-    </ul>
-    <div class="footer-copy">© 2026 Krira Gallery</div>
+    <div class="footer-top">
+      <div>
+        <span class="footer-logo">Krira</span>
+        <p class="footer-tagline">Original works by Priyanka Singh. A gallery without walls — reaching collectors worldwide since 2022.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Navigate</p>
+        <div class="footer-links-col">
+          <a href="#collection" onclick="goTo(event,'collection')">Collection</a>
+          <a href="#art-in-focus" onclick="goTo(event,'art-in-focus')">Art in Focus</a>
+          <a href="#about" onclick="goTo(event,'about')">About the Artist</a>
+          <a href="#">Shipping &amp; Framing</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Contact</p>
+        <div class="footer-links-col">
+          <a href="mailto:priyankasinghworld@gmail.com">priyankasinghworld@gmail.com</a>
+          <a href="https://instagram.com/kriragallery" target="_blank">@kriragallery on Instagram</a>
+          <a href="#">Bengaluru, India</a>
+          <a href="mailto:priyankasinghworld@gmail.com?subject=Commission Inquiry">Commission a work</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 Krira Gallery · All rights reserved</p>
+      <a href="https://instagram.com/kriragallery" target="_blank" class="footer-insta">@kriragallery</a>
+    </div>
   </footer>
 
   <!-- MODAL -->
   <div class="modal" id="artModal">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal()">&times;</button>
-      <div class="modal-image-wrap">
-        <div class="modal-image-frame">
-          <img src="" alt="" class="modal-image" id="modalImage" />
-        </div>
-      </div>
+      <div class="modal-image-wrap"><div class="modal-image-frame"><img src="" alt="" class="modal-image" id="modalImage" /></div></div>
       <div class="modal-info">
         <p class="modal-eyebrow">Krira Gallery — Current Collection</p>
         <h2 class="modal-title" id="modalTitle"></h2>
         <p class="modal-artist">Priyanka Singh</p>
         <div class="modal-divider"></div>
         <div class="modal-meta" id="modalMeta"></div>
-        <a href="mailto:priyankasinghworld@gmail.com" class="btn-primary" id="modalInquire">Inquire about this work</a>
+        <a href="#" class="btn-primary" id="modalInquire">Inquire about this work</a>
       </div>
     </div>
   </div>
 
   <script>
-    // ── helpers ──
-    function goTo(e, id) {
-      e.preventDefault();
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }
+  function goTo(e, id) { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }
+  function handleSubscribe(e) { e.preventDefault(); const btn = e.target.querySelector('button'); e.target.querySelector('input').value = ''; btn.textContent = 'Thank you'; setTimeout(() => btn.textContent = 'Subscribe', 3000); }
+  function openModal(e, n, title, medium, size, year) {
+    e.preventDefault();
+    document.getElementById('modalImage').src = 'arts/image' + n + '.jpg';
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalMeta').innerHTML =
+      '<div class="modal-meta-row"><span>Medium</span><span>'+medium+'</span></div>' +
+      '<div class="modal-meta-row"><span>Dimensions</span><span>'+size+'</span></div>' +
+      '<div class="modal-meta-row"><span>Year</span><span>'+year+'</span></div>' +
+      '<div class="modal-meta-row"><span>Availability</span><span>Contact to inquire</span></div>';
+    document.getElementById('modalInquire').href = 'mailto:priyankasinghworld@gmail.com?subject=Inquiry — '+title+' by Priyanka Singh';
+    document.getElementById('artModal').classList.add('active');
+  }
+  function closeModal() { document.getElementById('artModal').classList.remove('active'); }
+  document.addEventListener('click', e => { if (e.target === document.getElementById('artModal')) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-    function handleSubscribe(e) {
-      e.preventDefault();
-      const input = e.target.querySelector('input');
-      const btn = e.target.querySelector('button');
-      btn.textContent = 'Thank you';
-      input.value = '';
-      setTimeout(() => { btn.textContent = 'Subscribe'; }, 3000);
-    }
+  /* Hero carousel */
+  const heroMeta = [
+    { tag: 'Featured work' }, { tag: 'Still Waters' }, { tag: 'Solitude IV' }
+  ];
+  let heroIdx = 0;
+  function renderHero() {
+    document.getElementById('heroCounter').textContent = String(heroIdx+1).padStart(2,'0')+' / '+String(heroMeta.length).padStart(2,'0');
+    document.getElementById('heroTag').textContent = heroMeta[heroIdx].tag;
+    const dots = document.getElementById('heroDots'); dots.innerHTML = '';
+    heroMeta.forEach((_,i) => { const d = document.createElement('div'); d.className='hero-dot'+(i===heroIdx?' active':''); d.onclick=()=>goToHero(i); dots.appendChild(d); });
+  }
+  function goToHero(idx) {
+    document.getElementById('hslide-'+heroIdx).classList.remove('active');
+    heroIdx = (idx+heroMeta.length)%heroMeta.length;
+    document.getElementById('hslide-'+heroIdx).classList.add('active');
+    renderHero();
+  }
+  function heroNav(d) { goToHero(heroIdx+d); }
+  setInterval(() => heroNav(1), 5500);
+  renderHero();
 
-    function openModal(e, imgNum, title, medium, size, year) {
-      e.preventDefault();
-      document.getElementById('modalImage').src = 'arts/image' + imgNum + '.jpg';
-      document.getElementById('modalTitle').textContent = title;
-      document.getElementById('modalMeta').innerHTML =
-        '<div class="modal-meta-row"><span>Medium</span><span>' + medium + '</span></div>' +
-        '<div class="modal-meta-row"><span>Dimensions</span><span>' + size + '</span></div>' +
-        '<div class="modal-meta-row"><span>Year</span><span>' + year + '</span></div>' +
-        '<div class="modal-meta-row"><span>Availability</span><span>Inquire</span></div>';
-      document.getElementById('modalInquire').href =
-        'mailto:priyankasinghworld@gmail.com?subject=Inquiry — ' + title + ' by Priyanka Singh';
-      document.getElementById('artModal').classList.add('active');
-    }
-
-    function closeModal() {
-      document.getElementById('artModal').classList.remove('active');
-    }
-
-    document.addEventListener('click', function(e) {
-      if (e.target === document.getElementById('artModal')) closeModal();
-    });
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeModal();
-    });
-
-    // ── Art in Focus carousel ──
-    const focusWorks = [
-      {
-        title: 'Whispers of the Ghats',
-        artist: 'Priyanka Singh',
-        story: 'This canvas began with a walk along the Kaveri at dusk — the way amber dissolves into the water, the way stone remembers footsteps. Still finding its edges.',
-        medium: 'Oil on canvas',
-        status: 'Work in Progress',
-        started: '2025',
-        img: 'arts/image11.jpg'
-      },
-      {
-        title: 'Cartography of Silence',
-        artist: 'Priyanka Singh',
-        story: 'A meditation on the spaces between words. The underpainting maps an interior geography — half remembered, half imagined. The final layers are yet to arrive.',
-        medium: 'Mixed media',
-        status: 'Work in Progress',
-        started: '2025',
-        img: 'arts/image12.jpg'
-      }
-    ];
-
-    let focusIdx = 0;
-
-    function renderFocusPanel() {
-      const w = focusWorks[focusIdx];
-      document.getElementById('focusInfoPanel').innerHTML = `
-        <p class="focus-work-label">Work in progress — ${focusIdx + 1} of ${focusWorks.length}</p>
+  /* Focus carousel */
+  const focusWorks = [
+    { title:'Whispers of the Ghats', artist:'Priyanka Singh', story:'This canvas began with a walk along the Kaveri at dusk — the way amber dissolves into the water, the way stone remembers footsteps. Still finding its edges.', medium:'Oil on canvas', status:'Work in Progress', year:'2025' },
+    { title:'Cartography of Silence', artist:'Priyanka Singh', story:'A meditation on the spaces between words. The underpainting maps an interior geography — half remembered, half imagined. The final layers are yet to arrive.', medium:'Mixed media', status:'Work in Progress', year:'2025' }
+  ];
+  let focusIdx = 0;
+  function renderFocus() {
+    const w = focusWorks[focusIdx];
+    document.getElementById('focusPanel').innerHTML = `
+      <div>
+        <span class="focus-badge">Work in progress — ${focusIdx+1} of ${focusWorks.length}</span>
         <h2 class="focus-work-title">${w.title}</h2>
         <p class="focus-work-artist">${w.artist}</p>
-        <p class="focus-story-text">"${w.story}"</p>
-        <div class="focus-meta-list">
-          <div class="focus-meta-row"><span class="k">Medium</span><span class="v">${w.medium}</span></div>
-          <div class="focus-meta-row"><span class="k">Status</span><span class="v">${w.status}</span></div>
-          <div class="focus-meta-row"><span class="k">Year</span><span class="v">${w.started}</span></div>
-        </div>
-        <a href="mailto:priyankasinghworld@gmail.com?subject=Interest — ${w.title} (Work in Progress)" class="focus-explore-btn">Express interest</a>
-      `;
-    }
+        <p class="focus-story">"${w.story}"</p>
+        <hr class="focus-divider"/>
+        <div class="focus-meta-row"><span class="focus-meta-k">Medium</span><span class="focus-meta-v">${w.medium}</span></div>
+        <div class="focus-meta-row"><span class="focus-meta-k">Status</span><span class="focus-meta-v">${w.status}</span></div>
+        <div class="focus-meta-row"><span class="focus-meta-k">Year</span><span class="focus-meta-v">${w.year}</span></div>
+        <a href="mailto:priyankasinghworld@gmail.com?subject=Interest — ${w.title}" class="focus-explore-btn">Express Interest</a>
+      </div>`;
+    const dots = document.getElementById('focusDots'); dots.innerHTML = '';
+    focusWorks.forEach((_,i) => { const d=document.createElement('div'); d.className='focus-dot'+(i===focusIdx?' active':''); d.onclick=()=>goToFocus(i); dots.appendChild(d); });
+  }
+  function goToFocus(idx) {
+    document.getElementById('fslide-'+focusIdx).classList.remove('active');
+    focusIdx=(idx+focusWorks.length)%focusWorks.length;
+    document.getElementById('fslide-'+focusIdx).classList.add('active');
+    renderFocus();
+  }
+  function focusNav(d) { goToFocus(focusIdx+d); }
+  renderFocus();
 
-    function renderFocusDots() {
-      const dots = document.getElementById('focusDots');
-      dots.innerHTML = '';
-      focusWorks.forEach((_, i) => {
-        const d = document.createElement('div');
-        d.className = 'focus-dot' + (i === focusIdx ? ' active' : '');
-        d.onclick = () => goToFocusSlide(i);
-        dots.appendChild(d);
-      });
-    }
-
-    function goToFocusSlide(idx) {
-      document.getElementById('slide-' + focusIdx).classList.remove('active');
-      focusIdx = (idx + focusWorks.length) % focusWorks.length;
-      document.getElementById('slide-' + focusIdx).classList.add('active');
-      renderFocusPanel();
-      renderFocusDots();
-    }
-
-    function focusNav(dir) {
-      goToFocusSlide(focusIdx + dir);
-    }
-
-    // init
-    renderFocusPanel();
-    renderFocusDots();
+  /* Scroll reveal */
+  new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('in'); } }), {threshold:0.1})
+    .observe && document.querySelectorAll('.reveal').forEach(el =>
+      new IntersectionObserver(([e]) => { if(e.isIntersecting){el.classList.add('in');} }, {threshold:0.1}).observe(el)
+    );
   </script>
-
 </body>
 </html>
