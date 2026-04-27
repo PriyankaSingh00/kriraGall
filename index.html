@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Krira — A Virtual Gallery by Priyanka Singh</title>
+  <meta name="description" content="A virtual gallery experience. Twelve original works by Priyanka Singh — oil, acrylic, and watercolour." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:      #080F1A;
+      --navy-mid:  #0D1927;
+      --navy-soft: #162236;
+      --gold:      #C9A961;
+      --gold-deep: #B8923D;
+      --gold-lt:   #E0C887;
+      --cream:     #FAF8F3;
+      --paper:     #F1E8D4;
+      --muted:     rgba(245,239,227,0.45);
+      --muted-2:   rgba(245,239,227,0.25);
+    }
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden; /* track handles all scrolling */
+      margin: 0; padding: 0;
+    }
+    body {
+      background: var(--navy);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      color: var(--cream);
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; border: none; background: none; color: inherit; }
+
+    /* ─── HORIZONTAL SCROLL TRACK ─── */
+    #track {
+      display: flex;
+      flex-direction: row;
+      width: 100vw; height: 100vh;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+
+    /* ─── Nav ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 48px;
+      background: linear-gradient(180deg, rgba(8,15,26,0.9) 0%, transparent 100%);
+      pointer-events: none;
+    }
+    nav > * { pointer-events: auto; }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px; font-weight: 400; letter-spacing: 0.06em;
+    }
+    .nav-logo em { color: var(--gold); font-style: italic; }
+    .nav-links { display: flex; gap: 34px; }
+    .nav-links a {
+      font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--muted); transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--gold-lt); }
+    .nav-cta {
+      font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--navy-mid); background: var(--gold);
+      padding: 10px 20px; transition: background .25s;
+    }
+    .nav-cta:hover { background: var(--gold-lt); }
+
+    /* ─── Bottom progress dots ─── */
+    .prog {
+      position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 150;
+      display: flex; flex-direction: row;
+      align-items: center; gap: 10px;
+      background: rgba(8,15,26,0.6);
+      backdrop-filter: blur(12px);
+      padding: 10px 16px;
+      border: 1px solid rgba(201,169,97,0.15);
+    }
+    .prog-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--muted-2);
+      transition: all .35s cubic-bezier(.4,0,.2,1);
+      cursor: pointer;
+    }
+    .prog-dot.active { background: var(--gold); width: 20px; border-radius: 2px; }
+    .prog-label {
+      font-size: 9px; letter-spacing: 0.2em;
+      color: var(--muted-2);
+      margin-left: 8px;
+      padding-left: 12px;
+      border-left: 1px solid rgba(201,169,97,0.2);
+    }
+    .prog-label span { color: var(--gold); }
+
+
+
+    /* ─── OPENING ─── */
+    .opening {
+      flex: 0 0 100vw;
+      width: 100vw; height: 100vh;
+      scroll-snap-align: start; scroll-snap-stop: always;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .opening-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 38%, rgba(201,169,97,0.08) 0%, transparent 60%),
+        var(--navy);
+    }
+    .opening-noise {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+    }
+    .opening-body {
+      position: relative; z-index: 2;
+      text-align: center;
+      animation: revealUp 1.8s cubic-bezier(.16,1,.3,1) both;
+    }
+    @keyframes revealUp {
+      from { opacity:0; transform:translateY(30px); filter:blur(10px); }
+      to   { opacity:1; transform:translateY(0);    filter:blur(0); }
+    }
+    .o-eyebrow {
+      font-size: 9px; letter-spacing: 0.5em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 28px;
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+    }
+    .o-eyebrow::before, .o-eyebrow::after {
+      content:""; width:36px; height:1px; background:var(--gold); opacity:.45;
+    }
+    .o-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(68px, 10.5vw, 148px);
+      font-weight: 300; line-height: 0.88;
+      letter-spacing: -0.025em; color: var(--cream);
+    }
+    .o-title em { font-style: italic; color: var(--gold); display: block; }
+    .o-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 18px;
+      color: var(--muted); margin-top: 28px; letter-spacing: .02em;
+    }
+    .o-scroll {
+      position: absolute; bottom: 34px; right: 48px;
+      font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--muted); display: flex; flex-direction: row; align-items: center; gap: 12px;
+      animation: revealUp 1.8s .5s both;
+    }
+    .o-scroll::after {
+      content:""; width:44px; height:1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      animation: scrollPulse 2.4s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100% { opacity:.3; transform:scaleX(.5) translateX(-8px); }
+      50%      { opacity:1;  transform:scaleX(1)  translateX(8px); }
+    }
+
+    /* ─── ARTWORK SCREEN ─── */
+    .art-screen {
+      flex: 0 0 100vw;
+      width: 100vw; height: 100vh;
+      scroll-snap-align: start; scroll-snap-stop: always;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      background: var(--navy);
+    }
+
+    /* Wall texture — barely visible */
+    .art-screen::before {
+      content:"";
+      position: absolute; inset: 0;
+      background: url('arts/wall.jpg') center/cover no-repeat;
+      opacity: 0.04;
+      z-index: 0;
+    }
+
+    /* Edge vignette */
+    .art-screen::after {
+      content:"";
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 35%, rgba(8,15,26,.72) 100%);
+      pointer-events: none; z-index: 2;
+    }
+
+    /* The spotlight — cone from ceiling onto painting */
+    .spotlight {
+      position: absolute; inset: 0;
+      pointer-events: none; z-index: 1;
+      /* Narrow high-intensity cone + wider warm wash */
+      background:
+        radial-gradient(ellipse 28% 55% at 50% -2%, rgba(255,248,210,0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 70% at 50%  0%,  rgba(255,235,165,0.11) 0%, transparent 55%),
+        radial-gradient(ellipse 90% 85% at 50%  5%,  rgba(201,169,97,0.05)  0%, transparent 50%);
+      /* Animate subtle flicker */
+      animation: spotFlicker 9s ease-in-out infinite;
+    }
+    @keyframes spotFlicker {
+      0%,100% { opacity:1; }
+      30%      { opacity:.94; }
+      32%      { opacity:.98; }
+      60%      { opacity:.96; }
+      62%      { opacity:1; }
+    }
+
+    /* Floor glow below painting */
+    .floor-glow {
+      position: absolute; bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 38%; height: 26%;
+      background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(201,169,97,.07) 0%, transparent 70%);
+      pointer-events: none; z-index: 1;
+    }
+
+    /* Painting assembly */
+    .painting-wrap {
+      position: relative; z-index: 5;
+      display: flex; flex-direction: column; align-items: center;
+      cursor: pointer;
+      transform: translateY(-20px); /* nudge upward so placard has room */
+      transition: transform .7s cubic-bezier(.2,.8,.2,1);
+    }
+    .painting-wrap:hover { transform: translateY(-28px) scale(1.015); }
+
+    .frame {
+      position: relative;
+      background: #06090F;
+      padding: 15px;
+      box-shadow:
+        0 0 0 1px rgba(201,169,97,.3),
+        0 50px 90px -15px rgba(0,0,0,.85),
+        0 22px 44px -8px rgba(0,0,0,.6),
+        0 6px 18px rgba(0,0,0,.45);
+      transition: box-shadow .6s;
+    }
+    .painting-wrap:hover .frame {
+      box-shadow:
+        0 0 0 1px rgba(224,200,135,.7),
+        0 60px 110px -15px rgba(0,0,0,.9),
+        0 26px 50px -8px rgba(0,0,0,.65),
+        0 6px 18px rgba(0,0,0,.45);
+    }
+    .mat {
+      background: var(--paper);
+      padding: 17px;
+      box-shadow: inset 0 0 0 1px rgba(201,169,97,.18);
+    }
+    .mat-img { overflow: hidden; }
+    .mat-img img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    /* Floor shadow under frame */
+    .frame-shadow {
+      position: absolute; bottom: -36px; left: 50%;
+      transform: translateX(-50%);
+      width: 85%; height: 28px;
+      background: radial-gradient(ellipse, rgba(0,0,0,.65) 0%, transparent 70%);
+      filter: blur(8px);
+      pointer-events: none; z-index: -1;
+    }
+
+    /* ─── Placard bottom-left ─── */
+    .placard {
+      position: absolute; bottom: 48px; left: 52px;
+      z-index: 10; max-width: 300px;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity .6s .25s ease, transform .6s .25s ease;
+    }
+    .art-screen.visible .placard { opacity:1; transform:translateY(0); }
+    .pl-eyebrow {
+      font-size: 8px; letter-spacing: 0.42em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 9px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .pl-eyebrow::before { content:""; width:20px; height:1px; background:var(--gold); opacity:.55; }
+    .pl-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 300;
+      font-size: 28px; line-height: 1.0;
+      color: var(--cream); margin-bottom: 10px; letter-spacing: -.01em;
+    }
+    .pl-rule { width: 26px; height: 1px; background: var(--gold); opacity:.5; margin-bottom: 10px; }
+    .pl-meta {
+      font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--muted); line-height: 1.9;
+    }
+
+    /* ─── Inquiry cue bottom-right ─── */
+    .inquiry-cue {
+      position: absolute; bottom: 52px; right: 52px;
+      z-index: 10; text-align: right;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity .6s .38s ease, transform .6s .38s ease;
+    }
+    .art-screen.visible .inquiry-cue { opacity:1; transform:translateY(0); }
+    .inq-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 9px; letter-spacing: .28em; text-transform: uppercase;
+      color: var(--muted); padding: 9px 0;
+      border-bottom: 1px solid rgba(201,169,97,.22);
+      transition: color .25s, border-color .25s;
+    }
+    .inq-link:hover { color: var(--gold-lt); border-color: var(--gold); }
+    .inq-link::after { content:"→"; font-size: 11px; }
+    .inq-zoom {
+      display: block; font-size: 8.5px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--muted-2); margin-top: 8px;
+      transition: color .25s; cursor: pointer;
+    }
+    .inq-zoom:hover { color: var(--gold); }
+
+    /* ─── CLOSING ─── */
+    .closing {
+      flex: 0 0 100vw;
+      width: 100vw; height: 100vh;
+      scroll-snap-align: start; scroll-snap-stop: always;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; overflow: hidden;
+    }
+    .cl-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 55% 45% at 50% 50%, rgba(201,169,97,.06) 0%, transparent 60%),
+        var(--navy);
+    }
+    .cl-noise {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+    .cl-inner { position: relative; z-index: 2; padding: 0 32px; }
+    .cl-rule { width:1px; height:56px; background:linear-gradient(transparent, var(--gold), transparent); margin:0 auto 36px; }
+    .cl-eyebrow { font-size:9px; letter-spacing:.46em; text-transform:uppercase; color:var(--gold); margin-bottom:22px; }
+    .cl-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(44px, 6vw, 78px);
+      font-weight:300; font-style:italic;
+      color:var(--cream); line-height:1; margin-bottom:20px;
+    }
+    .cl-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-style:italic; font-size:18px;
+      color:var(--muted); max-width:480px; margin:0 auto 44px; line-height:1.65;
+    }
+    .cl-actions { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+    .btn-g {
+      display:inline-block;
+      font-size:9.5px; letter-spacing:.28em; text-transform:uppercase;
+      color:var(--navy-mid); background:var(--gold); padding:14px 30px;
+      transition:background .25s;
+    }
+    .btn-g:hover { background:var(--gold-lt); }
+    .btn-gh {
+      display:inline-block;
+      font-size:9.5px; letter-spacing:.28em; text-transform:uppercase;
+      color:var(--muted); padding:14px 30px;
+      border:1px solid rgba(201,169,97,.22); transition:all .25s;
+    }
+    .btn-gh:hover { border-color:var(--gold); color:var(--gold-lt); }
+    .cl-artist {
+      position:absolute; bottom:36px; left:50%; transform:translateX(-50%);
+      z-index:2; display:flex; align-items:center; gap:18px; opacity:.5;
+    }
+    .cl-artist-line { width:30px; height:1px; background:var(--gold); }
+    .cl-artist-name { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:13px; letter-spacing:.04em; }
+
+    /* ─── DETAIL POPUP ─── */
+    @keyframes popIn {
+      from { opacity:0; transform:scale(.88); filter:blur(8px); }
+      to   { opacity:1; transform:scale(1);   filter:blur(0); }
+    }
+    .detail-ov {
+      position:fixed; inset:0; z-index:500;
+      background:rgba(4,8,16,.96); backdrop-filter:blur(20px);
+      display:none; align-items:center; justify-content:center; padding:28px;
+    }
+    .detail-ov.open { display:flex; }
+    .detail-card {
+      position:relative; width:100%; max-width:1080px; max-height:92vh;
+      display:grid; grid-template-columns:1.3fr 1fr;
+      background:var(--navy-mid);
+      border:1px solid rgba(201,169,97,.22);
+      box-shadow:0 80px 160px rgba(0,0,0,.75);
+      animation:popIn .5s cubic-bezier(.2,.8,.2,1) both;
+      overflow:hidden;
+    }
+    .detail-card::before,.detail-card::after {
+      content:""; position:absolute;
+      width:18px; height:18px; border:1px solid var(--gold);
+      pointer-events:none; z-index:5; opacity:.55;
+    }
+    .detail-card::before { top:12px; left:12px; border-right:none; border-bottom:none; }
+    .detail-card::after  { bottom:12px; right:12px; border-left:none; border-top:none; }
+
+    .d-image {
+      position:relative; background:var(--navy);
+      display:flex; align-items:center; justify-content:center; padding:44px 32px; overflow:hidden;
+    }
+    /* spotlight inside detail */
+    .d-image::before {
+      content:""; position:absolute; inset:0;
+      background:
+        radial-gradient(ellipse 55% 55% at 50% 0%, rgba(255,248,210,.15) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 70% at 50% 0%, rgba(255,235,165,.07) 0%, transparent 50%);
+      pointer-events:none;
+    }
+    .d-frame {
+      position:relative; background:#06090F; padding:12px;
+      box-shadow:0 0 0 1px rgba(201,169,97,.38), 0 28px 56px rgba(0,0,0,.7); max-height:80vh;
+    }
+    .d-mat {
+      background:var(--paper); padding:14px;
+      display:flex; align-items:center; justify-content:center; max-height:74vh;
+    }
+    .d-mat img { max-width:100%; max-height:68vh; object-fit:contain; }
+    .d-frame-sh {
+      position:absolute; bottom:-16px; left:50%; transform:translateX(-50%);
+      width:80%; height:18px;
+      background:radial-gradient(ellipse, rgba(0,0,0,.5) 0%, transparent 70%);
+      filter:blur(6px);
+    }
+    .d-idx {
+      position:absolute; bottom:-30px; left:50%; transform:translateX(-50%);
+      font-size:9px; letter-spacing:.22em; color:var(--muted-2);
+    }
+    .d-idx span { color:var(--gold); }
+
+    .d-info {
+      padding:48px 40px; display:flex; flex-direction:column; overflow-y:auto;
+    }
+    .d-cat {
+      font-size:8.5px; letter-spacing:.4em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:16px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .d-cat::before { content:""; width:20px; height:1px; background:var(--gold); opacity:.55; }
+    .d-title {
+      font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300;
+      font-size:42px; line-height:.97; letter-spacing:-.015em;
+      color:var(--cream); margin-bottom:16px;
+    }
+    .d-rule { width:40px; height:1px; background:var(--gold); opacity:.45; margin-bottom:26px; }
+    .d-meta { margin-bottom:26px; }
+    .d-meta-row {
+      display:flex; justify-content:space-between; align-items:baseline;
+      padding:9px 0; border-bottom:1px solid rgba(201,169,97,.1);
+    }
+    .d-meta-k { font-size:8.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); }
+    .d-meta-v { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:15px; color:rgba(245,239,227,.82); }
+    .d-desc {
+      font-family:'Cormorant Garamond',serif; font-style:italic; font-size:16px;
+      line-height:1.75; color:var(--muted); flex:1; margin-bottom:28px;
+    }
+    .d-inq {
+      display:block; text-align:center;
+      font-size:9.5px; letter-spacing:.28em; text-transform:uppercase;
+      color:var(--navy-mid); background:var(--gold);
+      padding:14px 24px; transition:background .25s; margin-bottom:10px;
+    }
+    .d-inq:hover { background:var(--gold-lt); }
+    .d-edition { font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted-2); text-align:center; }
+
+    .d-close {
+      position:absolute; top:18px; right:18px; z-index:10;
+      width:36px; height:36px; border-radius:50%;
+      background:rgba(8,15,26,.8); border:1px solid rgba(201,169,97,.28);
+      color:var(--muted); font-size:13px;
+      display:flex; align-items:center; justify-content:center;
+      transition:all .25s; cursor:pointer;
+    }
+    .d-close:hover { background:var(--gold); color:var(--navy-mid); border-color:var(--gold); }
+    .d-nav {
+      position:absolute; top:50%; transform:translateY(-50%);
+      width:42px; height:42px; border-radius:50%;
+      background:rgba(8,15,26,.8); border:1px solid rgba(201,169,97,.28);
+      color:var(--muted); font-size:13px;
+      display:flex; align-items:center; justify-content:center;
+      transition:all .25s; z-index:5; cursor:pointer;
+    }
+    .d-nav:hover { background:var(--gold); color:var(--navy-mid); }
+    .d-nav.prev { left:-56px; }
+    .d-nav.next { right:-56px; }
+
+
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width:900px) {
+      .detail-card { grid-template-columns:1fr; max-height:94vh; overflow-y:auto; }
+      .d-image { padding:32px 22px; }
+      .d-info { padding:30px 26px; }
+      .d-title { font-size:32px; }
+      .d-nav.prev { left:10px; }
+      .d-nav.next { right:10px; }
+    }
+    @media (max-width:620px) {
+      nav { padding:18px 22px; }
+      .nav-links { display:none; }
+      .placard { left:22px; bottom:80px; max-width:200px; }
+      .pl-title { font-size:21px; }
+      .inquiry-cue { right:22px; bottom:84px; }
+      .prog { bottom:16px; padding:8px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="#" onclick="document.getElementById('track').scrollTo({left:0,behavior:'smooth'});return false;">Krir<em>a</em></a>
+    <div class="nav-links"></div>
+    <a class="nav-cta" href="mailto:priyankasinghworld@gmail.com">Inquire</a>
+  </nav>
+
+  <div class="prog" id="prog">
+    <div class="prog-dots" id="prog-dots"></div>
+    <div class="prog-label"><span id="prog-cur">01</span> / <span id="prog-tot">—</span></div>
+  </div>
+
+
+
+  <!-- HORIZONTAL TRACK -->
+  <div id="track">
+
+  <!-- Opening -->
+  <div class="opening" id="s0" data-si="0">
+    <div class="opening-bg"></div>
+    <div class="opening-noise"></div>
+    <div class="opening-body">
+      <div class="o-eyebrow">Krira · Spring 2026</div>
+      <h1 class="o-title">A Gallery<em>Without Walls</em></h1>
+      <p class="o-sub">Twelve original works by Priyanka Singh</p>
+    </div>
+    <div class="o-scroll">Scroll to enter</div>
+  </div>
+
+  <!-- Artwork screens inserted here by JS -->
+
+  <!-- Closing -->
+  <div class="closing" id="closing" data-si="99">
+    <div class="cl-bg"></div>
+    <div class="cl-noise"></div>
+    <div class="cl-inner">
+      <div class="cl-rule"></div>
+      <div class="cl-eyebrow">— Priyanka Singh · 2026 —</div>
+      <h2 class="cl-title">Twelve works.<br />One room.</h2>
+      <p class="cl-body">These are original paintings, made over years of slow looking — at landscapes remembered, at surfaces that hold light and refuse to release it.</p>
+      <div class="cl-actions">
+        <a href="mailto:priyankasinghworld@gmail.com" class="btn-g">Inquire about a work</a>
+        <a href="collection.html" class="btn-gh">Full Collection</a>
+      </div>
+    </div>
+    <div class="cl-artist">
+      <div class="cl-artist-line"></div>
+      <div class="cl-artist-name">Priyanka Singh · Bengaluru · @kriragallery</div>
+      <div class="cl-artist-line"></div>
+    </div>
+  </div>
+
+  </div><!-- end #track -->
+
+  <!-- Detail popup -->
+  <div class="detail-ov" id="detail-ov">
+    <div class="detail-card" onclick="event.stopPropagation()">
+      <button class="d-close" onclick="closeDetail()">✕</button>
+      <button class="d-nav prev" onclick="navDetail(-1)">←</button>
+      <button class="d-nav next" onclick="navDetail(1)">→</button>
+      <div class="d-image">
+        <div class="d-frame">
+          <div class="d-mat"><img id="d-img" alt="" /></div>
+          <div class="d-frame-sh"></div>
+        </div>
+        <div class="d-idx"><span id="d-cur">01</span> of <span id="d-tot">—</span></div>
+      </div>
+      <div class="d-info">
+        <div class="d-cat" id="d-cat"></div>
+        <h2 class="d-title" id="d-title"></h2>
+        <div class="d-rule"></div>
+        <div class="d-meta" id="d-meta"></div>
+        <p class="d-desc" id="d-desc"></p>
+        <a href="#" id="d-inq" class="d-inq">Inquire about this work</a>
+        <div class="d-edition">Original · One of one</div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script>
+  /* ── DATA ── */
+  const FILES = [
+    'acrylic-image3-20X30.jpg','acrylic-image5-20X30.jpg','acrylic-image6-10X5.jpg',
+    'acrylic-image7-10X5.jpg','acrylic-image8-10X5.jpg','acrylic-image9-20X30.jpg',
+    'acrylic-image1230X40.jpg','acrylic-image20-30X40.jpeg','oil-image21-10X5.jpg',
+    'watercolour-image3-10X5.png','watercolour-image4-10X5.jpg','acrylic-image1-20X30.jpg',
+  ];
+  const TITLES = [
+    'Untitled (Field I)','Aerial, Remembered','Centre, Receding','A Quiet Cerulean',
+    'Cadmium at the Edge','Dream of a Grid','Diagonal of Warm Light','Pooling, Afternoon',
+    'The Pause','Charcoal, Erased','Sky, Held','Endings, Bright'
+  ];
+  const DESCS = {
+    'acrylic-image3-20X30.jpg':'A meditation on cycles of remembrance — layers of ochre and burnt sienna echo the rhythms of a landscape caught between past and presence.',
+    'acrylic-image5-20X30.jpg':'Light fractures at the horizon. Deep umbers dissolve into an aerial haze, holding a story of land experienced through memory rather than map.',
+    'acrylic-image6-10X5.jpg':'Form collapses inward toward an absent centre. Built from accumulated washes, the work traces the geometry of loss.',
+    'acrylic-image7-10X5.jpg':'A whisper of cerulean — pigment at its most transparent. The surface holds sky, holds movement, holds quiet.',
+    'acrylic-image8-10X5.jpg':'Warm cadmium burns at the edge of a cooling ground. The work asks how endings carry their own particular brightness.',
+    'acrylic-image9-20X30.jpg':'Structure as dream — hard angles softened by layered washes. A dialogue between the mathematical and the intuitive.',
+    'acrylic-image1230X40.jpg':'A field of muted tone interrupted by a single diagonal of warm light crossing its lower third. A commanding presence.',
+    'acrylic-image20-30X40.jpeg':'Pigment pooling at the base of wet paper — a record of weather as much as of landscape, made on a single afternoon.',
+    'oil-image21-10X5.jpg':'Scraped layers of lead white and raw umber describe a liminal surface that holds its breath. The pause at an opening.',
+    'watercolour-image3-10X5.png':'Successive layers of charcoal applied and partially erased build a surface that records its own making.',
+    'watercolour-image4-10X5.jpg':'A whisper of cerulean — watercolour at its most transparent. The surface holds sky, holds movement, holds quiet.',
+    'acrylic-image1-20X30.jpg':'Warm cadmium burns at the edge of a cooling ground. The work asks how endings carry their own particular brightness.',
+  };
+  const ML = { oil:'Oil on canvas', acrylic:'Acrylic on canvas', watercolour:'Watercolour on paper', watercolor:'Watercolour on paper' };
+  const MC = { oil:'Painting', acrylic:'Painting', watercolour:'Works on Paper', watercolor:'Works on Paper' };
+
+  function parseFile(f, i) {
+    const stem = f.replace(/\.(jpg|jpeg|png|webp)$/i,'');
+    const parts = stem.split('-');
+    let mk=null, sz='';
+    if (ML[parts[0]?.toLowerCase()]) { mk=parts[0].toLowerCase(); parts.shift(); }
+    const last = parts[parts.length-1];
+    let sizeStr=null;
+    if (last && /^\d+x\d+$/i.test(last)) { sizeStr=last; parts.pop(); }
+    else if (last) { const m=last.match(/image\d*(\d{2}x\d+)$/i); if(m) sizeStr=m[1]; }
+    if (sizeStr) { const [w,h]=sizeStr.toLowerCase().split('x'); sz=`${w} × ${h} cm`; }
+    const aspect = sizeStr ? (()=>{ const [w,h]=sizeStr.toLowerCase().split('x').map(Number); return w/h; })() : 3/4;
+    return {
+      f, src:'arts/'+f, title:TITLES[i]||'Untitled',
+      medium: ML[mk]||'Mixed media', cat: MC[mk]||'Painting', mk:mk||'mixed',
+      sz, year:2024+(i%2), desc:DESCS[f]||'An original work.', aspect,
+    };
+  }
+  const AW = FILES.map(parseFile);
+
+  /* ── BUILD ART SCREENS ── */
+  function buildScreens() {
+    const track = document.getElementById('track');
+    const closing = document.getElementById('closing');
+    AW.forEach((a, i) => {
+      const vh = window.innerHeight, vw = window.innerWidth;
+      const maxH = Math.round(vh * 0.60), maxW = Math.round(vw * 0.52);
+      let dw, dh;
+      if (a.aspect >= 1) { dw=Math.min(maxW, Math.round(maxH*a.aspect)); dh=Math.round(dw/a.aspect); }
+      else               { dh=Math.min(maxH, Math.round(maxW/a.aspect)); dw=Math.round(dh*a.aspect); }
+      if (dw>maxW) { dw=maxW; dh=Math.round(maxW/a.aspect); }
+      if (dh>maxH) { dh=maxH; dw=Math.round(maxH*a.aspect); }
+
+      const el = document.createElement('div');
+      el.className='art-screen';
+      el.id=`s${i+1}`;
+      el.dataset.si=i+1;
+      el.dataset.ai=i;
+      el.innerHTML=`
+        <div class="spotlight"></div>
+        <div class="floor-glow"></div>
+        <div class="painting-wrap" onclick="openDetail(${i})">
+          <div class="frame">
+            <div class="mat">
+              <div class="mat-img" style="width:${dw}px;height:${dh}px">
+                <img src="${a.src}" alt="${a.title}" loading="lazy"/>
+              </div>
+            </div>
+          </div>
+          <div class="frame-shadow"></div>
+        </div>
+        <div class="placard">
+          <div class="pl-eyebrow">${a.cat}</div>
+          <div class="pl-title">${a.title}</div>
+          <div class="pl-rule"></div>
+          <div class="pl-meta">${a.medium}<br>${a.year}${a.sz?' · '+a.sz:''}</div>
+        </div>
+        <div class="inquiry-cue">
+          <a class="inq-link" href="mailto:priyankasinghworld@gmail.com?subject=${encodeURIComponent('Inquiry — '+a.title)}" onclick="event.stopPropagation()">Inquire</a>
+          <span class="inq-zoom" onclick="openDetail(${i})">View close up</span>
+        </div>
+      `;
+      track.insertBefore(el, closing);
+    });
+    // update closing screen data-si
+    document.getElementById('closing').dataset.si = AW.length + 1;
+  }
+
+  /* ── PROGRESS + SCROLL ── */
+  const TRACK = document.getElementById('track');
+  let curSi = 0;
+
+  function scrollToSlide(si) {
+    TRACK.scrollTo({ left: si * window.innerWidth, behavior: 'smooth' });
+  }
+
+  function buildDots() {
+    const host = document.getElementById('prog-dots');
+    host.innerHTML='';
+    document.getElementById('prog-tot').textContent = String(AW.length).padStart(2,'0');
+    AW.forEach((_,i)=>{
+      const d=document.createElement('div');
+      d.className='prog-dot';
+      d.title=AW[i].title;
+      d.onclick=()=>scrollToSlide(i+1);
+      host.appendChild(d);
+    });
+  }
+
+  function updateProgress(si) {
+    curSi=si;
+    const dots=document.querySelectorAll('.prog-dot');
+    const ai=si-1;
+    dots.forEach((d,i)=>d.classList.toggle('active',i===ai));
+    const n=ai>=0&&ai<AW.length?ai+1:0;
+    document.getElementById('prog-cur').textContent=String(n).padStart(2,'0');
+  }
+
+  function initObserver() {
+    const all=[document.getElementById('s0'),...AW.map((_,i)=>document.getElementById(`s${i+1}`)),document.getElementById('closing')];
+    const obs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting&&e.intersectionRatio>=0.5){
+          const si=parseInt(e.target.dataset.si??-1);
+          if(!isNaN(si)) updateProgress(si);
+          e.target.classList.add('visible');
+        } else {
+          e.target.classList.remove('visible');
+        }
+      });
+    },{ threshold:0.5, root: TRACK });
+    all.forEach(el=>{if(el)obs.observe(el);});
+  }
+
+  /* Wheel → horizontal, one slide per gesture */
+  let wheelLocked = false;
+  TRACK.addEventListener('wheel', e => {
+    if (document.getElementById('detail-ov').classList.contains('open')) return;
+    e.preventDefault();
+    if (wheelLocked) return;
+    const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+    if (Math.abs(delta) < 10) return;
+    const cur = Math.round(TRACK.scrollLeft / window.innerWidth);
+    if (delta > 0) scrollToSlide(cur + 1);
+    else            scrollToSlide(cur - 1);
+    wheelLocked = true;
+    setTimeout(() => { wheelLocked = false; }, 700);
+  }, { passive: false });
+
+  /* ── DETAIL ── */
+  let di=0;
+  function openDetail(idx){ di=idx; renderDetail(); document.getElementById('detail-ov').classList.add('open'); }
+  function closeDetail(){ document.getElementById('detail-ov').classList.remove('open'); }
+  function navDetail(dir){ di=(di+dir+AW.length)%AW.length; renderDetail(); }
+  function renderDetail(){
+    const a=AW[di];
+    document.getElementById('d-img').src=a.src;
+    document.getElementById('d-img').alt=a.title;
+    document.getElementById('d-cat').textContent=a.cat;
+    document.getElementById('d-title').textContent=a.title;
+    document.getElementById('d-desc').textContent=a.desc;
+    document.getElementById('d-cur').textContent=String(di+1).padStart(2,'0');
+    document.getElementById('d-tot').textContent=String(AW.length).padStart(2,'0');
+    const m=document.getElementById('d-meta'); m.innerHTML='';
+    [['Year',a.year],['Medium',a.medium],['Dimensions',a.sz||'—'],['Edition','Original · One of one']].forEach(([k,v])=>{
+      const r=document.createElement('div'); r.className='d-meta-row';
+      r.innerHTML=`<span class="d-meta-k">${k}</span><span class="d-meta-v">${v}</span>`;
+      m.appendChild(r);
+    });
+    document.getElementById('d-inq').href='mailto:priyankasinghworld@gmail.com?subject='+encodeURIComponent('Inquiry — '+a.title);
+  }
+  document.getElementById('detail-ov').addEventListener('click',e=>{ if(e.target===e.currentTarget)closeDetail(); });
+  document.addEventListener('keydown',e=>{
+    const dOpen=document.getElementById('detail-ov').classList.contains('open');
+    if(dOpen){
+      if(e.key==='Escape') closeDetail();
+      if(e.key==='ArrowRight') navDetail(1);
+      if(e.key==='ArrowLeft')  navDetail(-1);
+    } else {
+      const cur = Math.round(TRACK.scrollLeft / window.innerWidth);
+      if(e.key==='ArrowRight') scrollToSlide(cur+1);
+      if(e.key==='ArrowLeft')  scrollToSlide(cur-1);
+    }
+  });
+
+  /* ── INIT ── */
+  buildScreens();
+  buildDots();
+  initObserver();
+  </script>
+</body>
+</html>
