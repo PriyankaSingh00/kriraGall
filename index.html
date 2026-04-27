@@ -725,6 +725,9 @@
     dots.forEach((d,i)=>d.classList.toggle('active',i===ai));
     const n=ai>=0&&ai<AW.length?ai+1:0;
     document.getElementById('prog-cur').textContent=String(n).padStart(2,'0');
+    // hide counter on opening and closing screens
+    const onArtwork = si >= 1 && si <= AW.length;
+    document.getElementById('prog').querySelector('.prog-label').style.display = onArtwork ? '' : 'none';
   }
 
   function initObserver() {
@@ -798,6 +801,8 @@
   buildScreens();
   buildDots();
   initObserver();
+  // hide counter initially (on opening screen)
+  document.getElementById('prog').querySelector('.prog-label').style.display = 'none';
   </script>
 </body>
 </html>
